@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctanos - Travitrade</title>
+    
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Archivos CSS -->
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/components.css">
+    <link rel="stylesheet" href="/styles/responsive.css">
+    
+    <style>
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto 3rem auto;
+            text-align: left;
+            background-color: var(--bg-card);
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            font-weight: 500;
+        }
+        
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            background-color: #0d2114;
+            color: var(--text-main);
+            font-family: inherit;
+        }
+        
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+    </style>
+</head>
+<body style="background-color: #0a1a0f;">
+    
+    <!-- Contenedor del Navbar dinámico -->
+    <div id="navbar-container"></div>
+
+    <main class="main-content" style="min-height: 80vh; padding: 6rem 2rem 4rem 2rem;">
+        <div class="container text-center">
+            <h1 style="color: #1D9E75; margin-bottom: 3rem;">Contáctanos</h1>
+            
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('¡Mensaje enviado con éxito!');">
+                <div class="form-group">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input type="text" id="nombre" class="form-input" required placeholder="Tu nombre">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" id="email" class="form-input" required placeholder="tu@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="mensaje">Mensaje</label>
+                    <textarea id="mensaje" class="form-textarea" required placeholder="¿En qué podemos ayudarte?"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary" style="width: 100%; background-color: #1D9E75; border-color: #1D9E75;">Enviar mensaje</button>
+            </form>
+
+            <p style="margin-bottom: 3rem; color: var(--text-muted); font-size: 1.1rem;">
+                También puedes encontrarnos en Instagram
+            </p>
+
+            <a href="/index.html" class="btn btn-outline">&larr; Volver al inicio</a>
+        </div>
+    </main>
+
+    <!-- Footer Dinámico -->
+    <div id="footer-container"></div>
+
+    <!-- JS Scripts -->
+    <script src="/js/main.js"></script>
+</body>
+</html>

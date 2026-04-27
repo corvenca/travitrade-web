@@ -57,9 +57,9 @@ function initNavbar() {
 // Ejecutar cargas al iniciar la página
 document.addEventListener('DOMContentLoaded', () => {
     // Importamos el navbar en el contenedor designado
-    loadComponent('navbar-container', './components/navbar.html');
+    loadComponent('navbar-container', '/components/navbar.html');
     // Importamos el footer
-    loadComponent('footer-container', './components/footer.html');
+    loadComponent('footer-container', '/components/footer.html');
     
     // Iniciar animaciones con un pequeño retraso para permitir inyecciones del DOM
     setTimeout(initScrollAnimations, 150);
