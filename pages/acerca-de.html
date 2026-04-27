@@ -14,54 +14,403 @@
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/components.css">
     <link rel="stylesheet" href="/styles/responsive.css">
+    
+    <style>
+        /* Estilos específicos para la página Acerca de */
+        body {
+            background-color: #0a1a0f;
+        }
+        
+        .tag {
+            color: #1D9E75;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        
+        .section-title-white {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        
+        .text-body {
+            color: rgba(159, 225, 203, 0.8); /* #9FE1CB con opacidad 0.8 */
+            font-size: 1.15rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .section-padding {
+            padding: 6rem 2rem;
+        }
+        
+        .bg-dark-light {
+            background-color: #0d1f14;
+        }
+        
+        /* Hero */
+        .about-hero {
+            padding: 80px 2rem 0 2rem;
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 80px auto;
+        }
+        
+        /* Pillars Bar */
+        .pillars-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background-color: #0d1f14;
+            border-top: 1px solid #1a3a26;
+            border-bottom: 1px solid #1a3a26;
+        }
+        .pillar-item {
+            padding: 36px 28px;
+            text-align: center;
+            border-right: 1px solid #1a3a26;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .pillar-item:last-child {
+            border-right: none;
+        }
+        .pillar-item:hover {
+            background-color: #0f2a1a;
+        }
+        .pillar-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background-color: #1D9E75;
+            transition: height 0.3s ease;
+        }
+        .pillar-item:hover::after {
+            height: 2px;
+        }
+        .pillar-number {
+            color: #1D9E75;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .pillar-icon-wrapper {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #1D9E75;
+            background-color: #0f2e1a;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            color: #1D9E75;
+        }
+        .pillar-icon-wrapper svg {
+            width: 16px;
+            height: 16px;
+        }
+        .pillar-title {
+            color: #1D9E75;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        .pillar-divider {
+            width: 28px;
+            height: 2px;
+            background-color: rgba(29, 158, 117, 0.5);
+            margin: 12px auto;
+        }
+        .pillar-desc {
+            color: rgba(159, 225, 203, 0.75);
+            font-size: 13px;
+        }
+        
+        /* Cards */
+        .card-base {
+            background-color: #0a1a0f;
+            border: 1px solid rgba(29, 158, 117, 0.2);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            transition: border-color 0.3s ease;
+        }
+        .card-base:hover {
+            border-color: #1D9E75;
+        }
+        .card-title {
+            color: #ffffff;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-family: 'Outfit', sans-serif;
+        }
+        
+        /* Misión & Visión */
+        .mv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .mv-card {
+            border: 1px solid #1D9E75;
+            background-color: #0a1a0f;
+            padding: 3rem 2.5rem;
+            border-radius: 12px;
+        }
+        .mv-card .card-title {
+            font-size: 1.6rem;
+        }
+        
+        /* Audience */
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        /* Values Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        .value-number {
+            color: #1D9E75;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+            border-bottom: 2px solid #1D9E75;
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .pillars-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .pillar-item:nth-child(2) {
+                border-right: none;
+            }
+            .pillar-item:nth-child(1), .pillar-item:nth-child(2) {
+                border-bottom: 1px solid #1a3a26;
+            }
+            .mv-grid {
+                grid-template-columns: 1fr;
+            }
+            .audience-grid {
+                grid-template-columns: 1fr;
+            }
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title-white {
+                font-size: 2rem;
+            }
+            .about-hero {
+                padding: 6rem 1.5rem 3rem 1.5rem;
+            }
+        }
+    </style>
 </head>
-<body style="background-color: #0a1a0f;">
+<body>
     
     <!-- Contenedor del Navbar dinámico -->
     <div id="navbar-container"></div>
 
-    <main class="main-content" style="min-height: 80vh; padding: 6rem 2rem 4rem 2rem;">
-        <div class="container text-center">
-            <h1 style="color: #1D9E75; margin-bottom: 2rem;">Acerca de Travitrade</h1>
-            
-            <p style="max-width: 800px; margin: 0 auto 4rem auto; font-size: 1.2rem; color: var(--text-muted); line-height: 1.8;">
-                Travitrade nace para darle a los traders las herramientas que necesitan para operar con claridad, registrar su progreso y dominar sus finanzas.
+    <main class="main-content">
+        
+        <!-- SECCIÓN HERO -->
+        <section class="about-hero">
+            <span class="tag" style="border: 1px solid #1D9E75; background-color: transparent; padding: 4px 12px; border-radius: 20px; margin-top: 20px;">Nuestra historia</span>
+            <h1 class="section-title-white" style="font-size: 42px; font-weight: 500; margin-top: 24px;">Tecnología construida para <span style="color: #1D9E75;">traders reales</span></h1>
+            <p class="text-body" style="font-size: 1.25rem; max-width: 600px; margin: 0 auto; color: #9FE1CB;">
+                Travitrade nace para darle a traders e inversores las herramientas que necesitan para operar con claridad, registrar su progreso y dominar sus finanzas.
             </p>
+        </section>
 
-            <div class="products-grid" style="margin-bottom: 4rem;">
-                <!-- Travi Journals -->
-                <div class="product-card">
-                    <div class="product-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">Travi Journals</h3>
-                    </div>
+        <!-- FRANJA DE PILARES -->
+        <section class="pillars-bar">
+            <div class="pillar-item">
+                <span class="pillar-number">01</span>
+                <div class="pillar-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
                 </div>
-
-                <!-- Travi Portafolio -->
-                <div class="product-card">
-                    <div class="product-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">Travi Portafolio</h3>
-                    </div>
+                <div class="pillar-title">Análisis</div>
+                <div class="pillar-divider"></div>
+                <div class="pillar-desc">Trading inteligente</div>
+            </div>
+            <div class="pillar-item">
+                <span class="pillar-number">02</span>
+                <div class="pillar-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                 </div>
+                <div class="pillar-title">Control</div>
+                <div class="pillar-divider"></div>
+                <div class="pillar-desc">Gestión de riesgo</div>
+            </div>
+            <div class="pillar-item">
+                <span class="pillar-number">03</span>
+                <div class="pillar-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                </div>
+                <div class="pillar-title">Disciplina</div>
+                <div class="pillar-divider"></div>
+                <div class="pillar-desc">Consistencia</div>
+            </div>
+            <div class="pillar-item">
+                <span class="pillar-number">04</span>
+                <div class="pillar-icon-wrapper">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                </div>
+                <div class="pillar-title">Resultados</div>
+                <div class="pillar-divider"></div>
+                <div class="pillar-desc">Basado en datos</div>
+            </div>
+        </section>
 
-                <!-- Travi Finance -->
-                <div class="product-card">
-                    <div class="product-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+        <!-- SECCIÓN 1: Quiénes somos -->
+        <section class="section-padding">
+            <div class="container" style="max-width: 900px; margin: 0 auto; text-align: left;">
+                <span class="tag">Quiénes somos</span>
+                <h2 class="section-title-white">Una empresa enfocada en resultados financieros reales</h2>
+                <div style="margin-top: 2rem;">
+                    <p class="text-body">
+                        Travitrade es una empresa enfocada en el desarrollo de herramientas financieras y soluciones tecnológicas orientadas al análisis, gestión y optimización de operaciones en los mercados financieros y de la estructura financiera personal.
+                    </p>
+                    <p class="text-body">
+                        Nuestro propósito es brindar a traders, inversionistas y usuarios en general un entorno eficiente, estructurado y profesional que les permita tomar decisiones basadas en datos, disciplina y control del riesgo. A través de nuestras herramientas, facilitamos no solo el seguimiento y mejora del rendimiento en trading, sino también la organización, planificación y control de las finanzas personales.
+                    </p>
+                    <p class="text-body">
+                        Travitrade integra tecnología y análisis para ayudar a cada usuario a construir una base financiera sólida, mejorar su toma de decisiones y alcanzar una gestión financiera más consciente, ordenada y sostenible en el tiempo.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: Misión y Visión -->
+        <section class="section-padding bg-dark-light">
+            <div class="container" style="max-width: 1000px; margin: 0 auto;">
+                <div style="text-align: center;">
+                    <span class="tag">Propósito</span>
+                    <h2 class="section-title-white">Misión y Visión</h2>
+                </div>
+                
+                <div class="mv-grid">
+                    <div class="mv-card">
+                        <h3 class="card-title">Misión</h3>
+                        <p class="text-body" style="margin-bottom: 0;">
+                            Desarrollar soluciones digitales innovadoras que optimicen el análisis, control y gestión de operaciones financieras, ayudando a nuestros usuarios a mejorar su rendimiento mediante datos precisos, métricas claras y procesos eficientes.
+                        </p>
                     </div>
-                    <div class="product-content">
-                        <h3 class="product-title">Travi Finance</h3>
+                    <div class="mv-card">
+                        <h3 class="card-title">Visión</h3>
+                        <p class="text-body" style="margin-bottom: 0;">
+                            Convertirnos en una referencia en el desarrollo de herramientas tecnológicas para trading y análisis financiero en el mercado global, destacándonos por la calidad de nuestras soluciones, innovación constante y enfoque en resultados.
+                        </p>
                     </div>
                 </div>
             </div>
+        </section>
 
+        <!-- SECCIÓN 3: A quién va dirigido -->
+        <section class="section-padding">
+            <div class="container" style="max-width: 1100px; margin: 0 auto;">
+                <div style="text-align: center; max-width: 850px; margin: 0 auto;">
+                    <span class="tag">Audiencia</span>
+                    <h2 class="section-title-white">¿A quién va dirigido?</h2>
+                    <p class="text-body">
+                        Travitrade está dirigido a traders de futuros, acciones y criptomonedas, inversionistas que buscan gestionar su portafolio con precisión y personas que desean tomar control de sus finanzas personales de manera estructurada. Desde el trader profesional que opera diariamente hasta quienes están dando sus primeros pasos en el mundo financiero, Travitrade ofrece herramientas adaptadas a cada etapa, facilitando una gestión basada en datos, disciplina y control.
+                    </p>
+                </div>
+                
+                <div class="audience-grid">
+                    <div class="card-base">
+                        <h3 class="card-title">Traders activos</h3>
+                        <p class="text-body" style="margin-bottom: 0;">
+                            Futuros, acciones y criptomonedas. Desde scalpers hasta swing traders que necesitan análisis de su rendimiento.
+                        </p>
+                    </div>
+                    <div class="card-base">
+                        <h3 class="card-title">Inversionistas</h3>
+                        <p class="text-body" style="margin-bottom: 0;">
+                            Quienes buscan gestionar su portafolio con precisión y visualizar su evolución histórica en tiempo real.
+                        </p>
+                    </div>
+                    <div class="card-base">
+                        <h3 class="card-title">Finanzas personales</h3>
+                        <p class="text-body" style="margin-bottom: 0;">
+                            Personas que desean tomar control de sus finanzas de manera estructurada y basada en datos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: Valores -->
+        <section class="section-padding bg-dark-light">
+            <div class="container" style="max-width: 1100px; margin: 0 auto;">
+                <div style="text-align: center;">
+                    <span class="tag">Filosofía</span>
+                    <h2 class="section-title-white">Nuestros valores</h2>
+                </div>
+                
+                <div class="values-grid">
+                    <div class="card-base">
+                        <span class="value-number">01</span>
+                        <h3 class="card-title">Disciplina</h3>
+                        <p class="text-body" style="margin-bottom: 0;">Fomentamos el control y la consistencia en cada operación</p>
+                    </div>
+                    <div class="card-base">
+                        <span class="value-number">02</span>
+                        <h3 class="card-title">Precisión</h3>
+                        <p class="text-body" style="margin-bottom: 0;">Nos enfocamos en datos exactos y métricas confiables</p>
+                    </div>
+                    <div class="card-base">
+                        <span class="value-number">03</span>
+                        <h3 class="card-title">Innovación</h3>
+                        <p class="text-body" style="margin-bottom: 0;">Evolucionamos constantemente con nuevas tecnologías</p>
+                    </div>
+                    <div class="card-base">
+                        <span class="value-number">04</span>
+                        <h3 class="card-title">Transparencia</h3>
+                        <p class="text-body" style="margin-bottom: 0;">Información clara y objetiva para el usuario</p>
+                    </div>
+                    <div class="card-base">
+                        <span class="value-number">05</span>
+                        <h3 class="card-title">Responsabilidad</h3>
+                        <p class="text-body" style="margin-bottom: 0;">Promovemos una gestión consciente del riesgo</p>
+                    </div>
+                    <div class="card-base">
+                        <span class="value-number">06</span>
+                        <h3 class="card-title">Compromiso</h3>
+                        <p class="text-body" style="margin-bottom: 0;">Trabajamos para aportar valor real a cada usuario</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="section-padding" style="text-align: center; padding-top: 0;">
             <a href="/index.html" class="btn btn-outline">&larr; Volver al inicio</a>
         </div>
+
     </main>
 
     <!-- Footer Dinámico -->
@@ -69,5 +418,22 @@
 
     <!-- JS Scripts -->
     <script src="/js/main.js"></script>
+    
+    <!-- Script para resaltar el enlace activo en el Navbar -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Un pequeño retraso para asegurar que el componente navbar-container 
+            // haya cargado su HTML a través de main.js
+            setTimeout(() => {
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    // Si el href incluye "acerca-de.html", lo pintamos
+                    if(link.getAttribute('href') && link.getAttribute('href').includes('acerca-de.html')) {
+                        link.style.color = '#1D9E75';
+                    }
+                });
+            }, 300);
+        });
+    </script>
 </body>
 </html>
