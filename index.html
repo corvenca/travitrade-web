@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travitrade | Software Financiero</title>
+    
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Archivos CSS -->
+    <link rel="stylesheet" href="./styles/main.css">
+    <link rel="stylesheet" href="./styles/components.css">
+    <link rel="stylesheet" href="./styles/responsive.css">
+</head>
+<body>
+    
+    <!-- Contenedor del Navbar dinámico -->
+    <div id="navbar-container"></div>
+
+    <main class="main-content">
+        <!-- HERO SECTION -->
+        <section class="hero-section">
+            <div class="hero-container">
+                <!-- Contenido de Texto -->
+                <div class="hero-content">
+                    <div class="badge">Herramientas para traders serios</div>
+                    
+                    <h1 class="hero-title">
+                        Controla tu trading.<br> 
+                        <span class="text-accent">Domina tus finanzas.</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle">
+                        Travi Journals, Travi Portfolio y Travi Finance — todo en un ecosistema diseñado para traders.
+                    </p>
+                    
+                    <div class="hero-actions">
+                        <a href="#empezar" class="btn btn-primary">Empezar gratis</a>
+                        <a href="#demo" class="btn btn-outline">Ver demo &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Visual del Mockup -->
+                <div class="hero-visual">
+                    <div class="mockup-window">
+                        <!-- Cabecera estilo macOS -->
+                        <div class="mockup-header">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        
+                        <!-- Cuerpo del Dashboard -->
+                        <div class="mockup-body">
+                            <!-- Métricas -->
+                            <div class="mockup-metrics">
+                                <div class="metric-card">
+                                    <span class="metric-label">Trades del mes</span>
+                                    <span class="metric-value">142</span>
+                                </div>
+                                <div class="metric-card">
+                                    <span class="metric-label">Win Rate</span>
+                                    <span class="metric-value text-accent">68.4%</span>
+                                </div>
+                                <div class="metric-card">
+                                    <span class="metric-label">P&L Neto</span>
+                                    <span class="metric-value text-accent">+$12,450.00</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Gráfica SVG -->
+                            <div class="mockup-chart">
+                                <svg viewBox="0 0 500 150" class="chart-svg" preserveAspectRatio="none">
+                                    <defs>
+                                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                                            <stop offset="0%" stop-color="var(--primary-green)" stop-opacity="0.3"/>
+                                            <stop offset="100%" stop-color="var(--primary-green)" stop-opacity="0"/>
+                                        </linearGradient>
+                                        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                                            <feGaussianBlur stdDeviation="3" result="blur" />
+                                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                        </filter>
+                                    </defs>
+                                    
+                                    <!-- Área bajo la curva -->
+                                    <path d="M0,150 L0,110 C80,90 120,130 200,80 C260,40 320,110 400,60 C460,20 480,40 500,10 L500,150 Z" fill="url(#chartGrad)"></path>
+                                    
+                                    <!-- Línea principal -->
+                                    <path d="M0,110 C80,90 120,130 200,80 C260,40 320,110 400,60 C460,20 480,40 500,10" fill="none" stroke="var(--primary-green)" stroke-width="3" stroke-linecap="round" filter="url(#glow)"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS SECTION -->
+        <section class="products-section" id="productos">
+            <div class="container text-center">
+                <h2 class="section-title">Nuestro Ecosistema</h2>
+                <p class="section-subtitle">Tres herramientas potentes diseñadas para cubrir todas tus necesidades financieras.</p>
+                
+                <div class="products-grid">
+                    <!-- Travi Journals -->
+                    <a href="pages/journals.html" class="product-card">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Travi Journals</h3>
+                            <p class="product-desc">Diario de trading inteligente para registrar y analizar cada movimiento.</p>
+                        </div>
+                        <div class="product-badge badge badge-green">Disponible</div>
+                    </a>
+
+                    <!-- Travi Portfolio -->
+                    <a href="pages/portfolio.html" class="product-card is-upcoming">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Travi Portfolio</h3>
+                            <p class="product-desc">Rastreador de inversiones para gestionar el rendimiento de tus activos.</p>
+                        </div>
+                        <div class="product-badge badge badge-blue">Próximamente</div>
+                    </a>
+
+                    <!-- Travi Finance -->
+                    <a href="pages/finance.html" class="product-card is-upcoming">
+                        <div class="product-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Travi Finance</h3>
+                            <p class="product-desc">Finanzas personales simplificadas para organizar tu capital diario.</p>
+                        </div>
+                        <div class="product-badge badge badge-blue">Próximamente</div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES SECTION -->
+        <section class="features-section" id="funciones">
+            <div class="container">
+                <h2 class="section-title text-center">Funciones Destacadas</h2>
+                <p class="section-subtitle">Todo lo que necesitas para operar como un profesional.</p>
+
+                <div class="features-grid">
+                    <!-- Tarjeta 1: Full Width -->
+                    <div class="feature-card feature-card-large">
+                        <div class="feature-content">
+                            <h3 class="feature-title">Bitácora inteligente de trades</h3>
+                            <p class="feature-desc">Registra, etiqueta y analiza tus operaciones con un nivel de detalle institucional. Diseñado para optimizar tu proceso y encontrar tu ventaja estadística.</p>
+                        </div>
+                        <!-- Mini Tabla -->
+                        <div class="feature-visual mini-table-wrapper">
+                            <table class="mini-table">
+                                <thead>
+                                    <tr>
+                                        <th>Activo</th>
+                                        <th>Dirección</th>
+                                        <th>Entrada</th>
+                                        <th>Salida</th>
+                                        <th>P&L Neto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>NQ (Nasdaq)</td>
+                                        <td><span class="badge badge-green" style="padding: 2px 8px; font-size: 0.65rem;">Largo</span></td>
+                                        <td>18,450.25</td>
+                                        <td>18,475.50</td>
+                                        <td class="text-positive">+$505.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>MNQ (Micro NQ)</td>
+                                        <td><span class="badge badge-red" style="padding: 2px 8px; font-size: 0.65rem;">Corto</span></td>
+                                        <td>18,500.00</td>
+                                        <td>18,510.50</td>
+                                        <td class="text-negative">-$21.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>NQ (Nasdaq)</td>
+                                        <td><span class="badge badge-green" style="padding: 2px 8px; font-size: 0.65rem;">Largo</span></td>
+                                        <td>18,420.00</td>
+                                        <td>18,460.00</td>
+                                        <td class="text-positive">+$800.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Tarjetas 2x2 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                        </div>
+                        <h3 class="feature-title">Estadísticas que importan</h3>
+                        <p class="feature-desc">Conoce tu win rate, profit factor, drawdown y días de mayor rendimiento con un solo clic.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                        </div>
+                        <h3 class="feature-title">Soporte para NQ y MNQ</h3>
+                        <p class="feature-desc">Integración nativa con futuros de NinjaTrader. Sube tus ejecuciones sin esfuerzo.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        </div>
+                        <h3 class="feature-title">Diseño 100% Dark Mode</h3>
+                        <p class="feature-desc">Una interfaz diseñada para cuidar tu vista durante largas sesiones de trading.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                        </div>
+                        <h3 class="feature-title">Exporta en CSV o PDF</h3>
+                        <p class="feature-desc">Tus datos te pertenecen. Descarga tus reportes o compártelos con tus inversores.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="cta-section" id="empezar">
+            <div class="container text-center">
+                <div class="cta-box">
+                    <h2 class="cta-title">Empieza a operar con claridad</h2>
+                    <p class="cta-subtitle">Únete a la lista de espera de Travitrade y recibe acceso anticipado a nuestras herramientas.</p>
+                    <form class="cta-form" onsubmit="event.preventDefault(); alert('¡Gracias por registrarte!');">
+                        <input type="email" class="cta-input" placeholder="Tu correo electrónico" required>
+                        <button type="submit" class="btn btn-primary">Registrarme</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Dinámico -->
+    <div id="footer-container"></div>
+
+    <!-- JS Scripts -->
+    <script src="./js/main.js"></script>
+</body>
+</html>
