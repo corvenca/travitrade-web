@@ -1,34 +1,303 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos - Travitrade</title>
-    
-    <!-- Google Fonts: Inter & Outfit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
-    
-    <!-- Archivos CSS -->
-    <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" href="/styles/components.css">
-    <link rel="stylesheet" href="/styles/responsive.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos — Travitrade</title>
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/variables.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/responsive.css">
+  <style>
+    /* HERO */
+    .hero { padding: 180px 2rem 0 2rem; text-align: center; max-width: 900px; margin: 0 auto 80px auto; }
+    .hero-badge { display: inline-block; font-size: 13px; font-weight: 500; padding: 8px 20px; border-radius: 20px; border: 1.5px solid #1D9E75; color: #1D9E75; background: rgba(29,158,117,0.1); margin-bottom: 28px; letter-spacing: 0.5px; }
+    .hero h1 { font-size: 42px; font-weight: 500; color: #ffffff; margin-bottom: 1.5rem; line-height: 1.2; margin-top: 24px; }
+    .hero h1 span { color: #1D9E75; }
+    .hero p { color: rgba(159, 225, 203, 0.8); font-size: 1.25rem; line-height: 1.8; max-width: 600px; margin: 0 auto; }
+
+    /* GRID DE PRODUCTOS */
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); min-height: 100vh; }
+    .prod-col { padding: 32px 24px; border-right: 0.5px solid #1a3a24; display: flex; flex-direction: column; }
+    .prod-col:last-child { border-right: none; }
+    .prod-col.soon { opacity: 0.6; }
+
+    .prod-num { font-size: 10px; color: #1D9E75; letter-spacing: 2px; font-weight: 500; margin-bottom: 12px; }
+    .prod-icon-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .prod-icon { width: 40px; height: 40px; border-radius: 10px; background: #0f2e1a; border: 0.5px solid #1D9E75; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .prod-name { font-size: 18px; font-weight: 500; color: #fff; }
+    .prod-tag { display: inline-block; font-size: 10px; padding: 3px 10px; border-radius: 20px; background: #0f2e1a; color: #1D9E75; border: 0.5px solid #1D9E75; margin-bottom: 14px; }
+    .prod-tag.soon { background: #1a1d24; color: rgba(159,225,203,0.4); border-color: #2a2d34; }
+    .prod-desc { font-size: 13px; color: rgba(159,225,203,0.65); line-height: 1.7; margin-bottom: 20px; }
+
+    /* MOCKUP */
+    .mockup { background: #0a1a0f; border-radius: 10px; border: 0.5px solid #1a3a24; overflow: hidden; margin-bottom: 20px; }
+    .mock-bar { display: flex; align-items: center; gap: 5px; padding: 8px 12px; background: #0d1f14; border-bottom: 0.5px solid #1a3a24; }
+    .mock-dot { width: 7px; height: 7px; border-radius: 50%; background: #1a3a24; }
+    .mock-content { padding: 12px; }
+
+    .mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+    .ms { background: #0d1f14; border-radius: 6px; padding: 8px; border: 0.5px solid #1a3a24; }
+    .ms-lbl { font-size: 9px; color: rgba(159,225,203,0.4); letter-spacing: 1px; margin-bottom: 3px; }
+    .ms-val { font-size: 13px; font-weight: 500; color: #fff; }
+    .ms-val.g { color: #1D9E75; }
+    .mini-chart { height: 40px; background: #0d1f14; border-radius: 6px; border: 0.5px solid #1a3a24; display: flex; align-items: flex-end; padding: 6px; gap: 3px; }
+    .bar { border-radius: 2px; flex: 1; }
+    .port-items, .fin-items { display: flex; flex-direction: column; gap: 5px; }
+    .pi, .fi { display: flex; justify-content: space-between; padding: 6px 8px; background: #0d1f14; border-radius: 6px; border: 0.5px solid #1a3a24; font-size: 11px; }
+    .pi-sym, .fi-cat { color: rgba(159,225,203,0.7); font-weight: 500; }
+
+    /* FEATURES */
+    .features { display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px; }
+    .feat { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(159,225,203,0.7); }
+    .feat-dot { width: 5px; height: 5px; border-radius: 50%; background: #1D9E75; flex-shrink: 0; }
+
+    /* PLANES */
+    .plans { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .plan { background: #0a1a0f; border-radius: 8px; padding: 12px; border: 0.5px solid #1a3a24; }
+    .plan.featured { border: 1.5px solid #1D9E75; background: #0f2e1a; }
+    .plan-name { font-size: 11px; font-weight: 500; color: rgba(159,225,203,0.5); margin-bottom: 2px; }
+    .plan-price { font-size: 18px; font-weight: 500; color: #1D9E75; margin-bottom: 8px; }
+    .plan-price span { font-size: 11px; color: rgba(159,225,203,0.4); }
+    .plan-feats { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+    .pf { font-size: 11px; color: rgba(159,225,203,0.6); display: flex; gap: 5px; }
+    .pf .c { color: #1D9E75; }
+    .pf .x { color: rgba(159,225,203,0.3); }
+    .plan-btn { width: 100%; padding: 7px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; }
+    .plan-btn.p { background: #1D9E75; color: #fff; }
+    .plan-btn.s { background: transparent; border: 0.5px solid #1a3a24; color: rgba(159,225,203,0.5); cursor: pointer; }
+
+    .access-btn { display: block; width: 100%; padding: 10px; background: #1D9E75; color: #fff; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; text-align: center; cursor: pointer; text-decoration: none; margin-top: auto; }
+    .access-btn.disabled { background: #1a1d24; color: rgba(159,225,203,0.3); cursor: not-allowed; pointer-events: none; }
+
+    @media (max-width: 768px) {
+      .products-grid { grid-template-columns: 1fr; }
+      .prod-col { border-right: none; border-bottom: 0.5px solid #1a3a24; }
+      .nav-links { display: none; }
+    }
+  </style>
 </head>
-<body style="background-color: #0a1a0f;">
-    
-    <!-- Contenedor del Navbar dinámico -->
-    <div id="navbar-container"></div>
+<body>
 
-    <main class="main-content" style="min-height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
-        <h1 style="color: #1D9E75; text-align: center; margin-bottom: 2rem;">Productos - Travitrade</h1>
-        <a href="/index.html" class="btn btn-outline">&larr; Volver al inicio</a>
-    </main>
+  <nav class="navbar">
+      <div class="navbar-container">
+          <!-- Logo -->
+          <a href="../index.html" class="navbar-logo">
+              <img src="../assets/images/Logo.png" alt="Travitrade Logo" class="logo-img">
+          </a>
 
-    <!-- Footer Dinámico -->
-    <div id="footer-container"></div>
+          <!-- Menú de Navegación -->
+          <ul class="navbar-menu">
+              <li><a href="../index.html" class="nav-link">Inicio</a></li>
+              <li><a href="productos.html" class="nav-link active">Productos</a></li>
+              <li><a href="precios.html" class="nav-link">Precios</a></li>
+              <li><a href="acerca-de.html" class="nav-link">Acerca de</a></li>
+              <li><a href="contacto.html" class="nav-link">Contacto</a></li>
+              <li class="mobile-only-cta"><a href="https://app.travitrade.com/registro" class="btn btn-primary">Empezar gratis</a></li>
+          </ul>
 
-    <!-- JS Scripts -->
-    <script src="/js/main.js"></script>
+          <!-- Acciones (CTA) y Toggle para Móviles -->
+          <div class="navbar-actions">
+              <a href="https://app.travitrade.com/registro" class="btn btn-primary desktop-only-cta">Empezar gratis</a>
+              <button class="mobile-menu-toggle" aria-label="Abrir menú">
+                  <span class="bar"></span>
+                  <span class="bar"></span>
+                  <span class="bar"></span>
+              </button>
+          </div>
+      </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-badge">Nuestros productos</div>
+    <h1>Todo lo que necesitas para <span>operar con claridad</span></h1>
+    <p>Tres herramientas complementarias para traders e inversores. Desde el registro de cada operación hasta el control total de tus finanzas.</p>
+  </section>
+
+  <div class="products-grid">
+
+    <!-- TRAVI JOURNALS -->
+    <div class="prod-col">
+      <div class="prod-num">01</div>
+      <div class="prod-icon-row">
+        <div class="prod-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M2 14 L6 10 L9 12 L13 7 L18 9" stroke="#1D9E75" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="prod-name">Travi Journals</div>
+      </div>
+      <span class="prod-tag">Disponible</span>
+      <p class="prod-desc">Bitácora de trading profesional. Registra operaciones, analiza tu rendimiento y aprende de cada trade con estadísticas avanzadas.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+        <div class="mock-content">
+          <div class="mini-stats">
+            <div class="ms"><div class="ms-lbl">PNL NETO</div><div class="ms-val g">+$2,840</div></div>
+            <div class="ms"><div class="ms-lbl">WIN RATE</div><div class="ms-val g">67%</div></div>
+          </div>
+          <div class="mini-chart">
+            <div class="bar" style="height:35%;background:#E24B4A"></div>
+            <div class="bar" style="height:65%;background:#1D9E75"></div>
+            <div class="bar" style="height:45%;background:#1D9E75"></div>
+            <div class="bar" style="height:20%;background:#E24B4A"></div>
+            <div class="bar" style="height:85%;background:#1D9E75"></div>
+            <div class="bar" style="height:55%;background:#1D9E75"></div>
+            <div class="bar" style="height:90%;background:#1D9E75"></div>
+          </div>
+        </div>
+      </div>
+      <div class="features">
+        <div class="feat"><div class="feat-dot"></div>Registro con TP, BE y SL</div>
+        <div class="feat"><div class="feat-dot"></div>Curva de equity avanzada</div>
+        <div class="feat"><div class="feat-dot"></div>Calendario de rendimiento diario</div>
+        <div class="feat"><div class="feat-dot"></div>Reportes por setup e instrumento</div>
+        <div class="feat"><div class="feat-dot"></div>Soporte NQ, MNQ, ES, Forex, Crypto</div>
+      </div>
+      <div class="plans">
+        <div class="plan">
+          <div class="plan-name">FREE</div>
+          <div class="plan-price">$0 <span>/mes</span></div>
+          <div class="plan-feats">
+            <div class="pf"><span class="c">✓</span> 1 cuenta de trading</div>
+            <div class="pf"><span class="c">✓</span> 50 operaciones/mes</div>
+            <div class="pf"><span class="x">—</span> Reportes avanzados</div>
+          </div>
+          <button class="plan-btn s" onclick="window.location.href='https://app.travitrade.com/registro'">Comenzar gratis</button>
+        </div>
+        <div class="plan featured">
+          <div class="plan-name">PRO</div>
+          <div class="plan-price">$19 <span>/mes</span></div>
+          <div class="plan-feats">
+            <div class="pf"><span class="c">✓</span> Cuentas ilimitadas</div>
+            <div class="pf"><span class="c">✓</span> Operaciones ilimitadas</div>
+            <div class="pf"><span class="c">✓</span> Reportes avanzados</div>
+          </div>
+          <button class="plan-btn p" onclick="window.location.href='https://app.travitrade.com/registro'">Suscribirse</button>
+        </div>
+      </div>
+      <a href="https://app.travitrade.com/login?from=external" class="access-btn">Acceder a Travi Journals →</a>
+    </div>
+
+    <!-- TRAVI PORTAFOLIO -->
+    <div class="prod-col soon">
+      <div class="prod-num">02</div>
+      <div class="prod-icon-row">
+        <div class="prod-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="7" height="7" rx="2" stroke="#1D9E75" stroke-width="1.8"/><rect x="11" y="2" width="7" height="7" rx="2" stroke="#1D9E75" stroke-width="1.8"/><rect x="2" y="11" width="7" height="7" rx="2" stroke="#1D9E75" stroke-width="1.8"/><rect x="11" y="11" width="7" height="7" rx="2" stroke="#1D9E75" stroke-width="1.8"/></svg>
+        </div>
+        <div class="prod-name">Travi Portafolio</div>
+      </div>
+      <span class="prod-tag soon">Próximamente</span>
+      <p class="prod-desc">Rastreador de inversiones en tiempo real. Gestiona acciones, ETFs y criptomonedas con métricas precisas de rendimiento.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+        <div class="mock-content">
+          <div class="port-items">
+            <div class="pi"><span class="pi-sym">AAPL</span><span style="color:#1D9E75;font-weight:500">+8.4%</span></div>
+            <div class="pi"><span class="pi-sym">NVDA</span><span style="color:#1D9E75;font-weight:500">+24.1%</span></div>
+            <div class="pi"><span class="pi-sym">BTC</span><span style="color:#1D9E75;font-weight:500">+12.3%</span></div>
+            <div class="pi"><span class="pi-sym">ETH</span><span style="color:#E24B4A;font-weight:500">-2.1%</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="features">
+        <div class="feat"><div class="feat-dot"></div>Portafolio en tiempo real</div>
+        <div class="feat"><div class="feat-dot"></div>Análisis histórico de rendimiento</div>
+        <div class="feat"><div class="feat-dot"></div>Métricas de diversificación y riesgo</div>
+        <div class="feat"><div class="feat-dot"></div>Alertas de precio y movimientos</div>
+        <div class="feat"><div class="feat-dot"></div>Soporte acciones, ETFs y crypto</div>
+      </div>
+      <a href="#" class="access-btn disabled">Próximamente</a>
+    </div>
+
+    <!-- TRAVI FINANCE -->
+    <div class="prod-col soon">
+      <div class="prod-num">03</div>
+      <div class="prod-icon-row">
+        <div class="prod-icon">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="#1D9E75" stroke-width="1.8"/><path d="M10 7v3l2 2" stroke="#1D9E75" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </div>
+        <div class="prod-name">Travi Finance</div>
+      </div>
+      <span class="prod-tag soon">Próximamente</span>
+      <p class="prod-desc">Control total de tus finanzas personales. Presupuestos, gastos y metas de ahorro diseñados para traders.</p>
+      <div class="mockup">
+        <div class="mock-bar"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
+        <div class="mock-content">
+          <div class="fin-items">
+            <div class="fi"><span class="fi-cat">Trading PnL</span><span style="color:#1D9E75;font-weight:500">+$2,840</span></div>
+            <div class="fi"><span class="fi-cat">Vivienda</span><span style="color:#E24B4A;font-weight:500">-$1,200</span></div>
+            <div class="fi"><span class="fi-cat">Alimentación</span><span style="color:#E24B4A;font-weight:500">-$450</span></div>
+            <div class="fi"><span class="fi-cat">Ahorro</span><span style="color:#1D9E75;font-weight:500">+$500</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="features">
+        <div class="feat"><div class="feat-dot"></div>Presupuestos mensuales por categoría</div>
+        <div class="feat"><div class="feat-dot"></div>Seguimiento de ingresos y gastos</div>
+        <div class="feat"><div class="feat-dot"></div>Metas de ahorro e inversión</div>
+        <div class="feat"><div class="feat-dot"></div>Integración con Travi Journals</div>
+      </div>
+      <a href="#" class="access-btn disabled">Próximamente</a>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+      <div class="container footer-container">
+          <!-- Logo -->
+          <div class="footer-logo">
+              <a href="../index.html" class="navbar-logo" style="text-decoration: none;">
+                  <img src="../assets/images/Logo.png" alt="Travitrade" style="height: 50px; width: auto; mix-blend-mode: screen;">
+              </a>
+          </div>
+
+          <!-- Enlaces Centrales -->
+          <ul class="footer-links">
+              <li><a href="#terminos" class="footer-link">Términos</a></li>
+              <li><a href="#privacidad" class="footer-link">Privacidad</a></li>
+              <li><a href="contacto.html" class="footer-link">Contacto</a></li>
+              <li><a href="#instagram" class="footer-link">Instagram</a></li>
+          </ul>
+
+          <!-- Copyright -->
+          <div class="footer-copyright">
+              &copy; 2026 Travitrade. Todos los derechos reservados.
+          </div>
+      </div>
+  </footer>
+
+  <script>
+      // Script para el menú móvil de la navbar
+      document.addEventListener('DOMContentLoaded', () => {
+          const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+          const navbarMenu = document.querySelector('.navbar-menu');
+          
+          if (mobileMenuToggle && navbarMenu) {
+              mobileMenuToggle.addEventListener('click', () => {
+                  mobileMenuToggle.classList.toggle('active');
+                  navbarMenu.classList.toggle('active');
+                  if (navbarMenu.classList.contains('active')) {
+                      document.body.style.overflow = 'hidden';
+                  } else {
+                      document.body.style.overflow = '';
+                  }
+              });
+              
+              const links = navbarMenu.querySelectorAll('.nav-link, .btn');
+              links.forEach(link => {
+                  link.addEventListener('click', () => {
+                      mobileMenuToggle.classList.remove('active');
+                      navbarMenu.classList.remove('active');
+                      document.body.style.overflow = '';
+                  });
+              });
+          }
+      });
+  </script>
 </body>
 </html>
