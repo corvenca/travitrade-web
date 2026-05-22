@@ -1,38 +1,269 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Precios - Travitrade</title>
-    
-    <!-- Google Fonts: Inter & Outfit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
-    
-    <!-- Archivos CSS -->
-    <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" href="/styles/components.css">
-    <link rel="stylesheet" href="/styles/responsive.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
-    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Precios — Travitrade</title>
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../styles/main.css">
+  <link rel="stylesheet" href="../styles/components.css">
+  <link rel="stylesheet" href="../styles/responsive.css">
+  <link rel="stylesheet" href="../styles/variables.css">
+  <style>
+
+
+    .hero { padding: 160px 32px 48px; text-align: center; border-bottom: 0.5px solid #1a3a24; }
+    .badge { display: inline-block; font-size: 13px; font-weight: 500; padding: 8px 20px; border-radius: 20px; margin-bottom: 28px; background: rgba(29,158,117,0.1); color: #1D9E75; border: 1.5px solid #1D9E75; letter-spacing: 0.5px; }
+    .hero h1 { font-size: 42px; font-weight: 500; color: #ffffff; margin-bottom: 1.5rem; line-height: 1.2; margin-top: 24px; }
+    .hero h1 span { color: #1D9E75; }
+    .hero p { font-size: 1.25rem; color: rgba(159,225,203,0.8); max-width: 600px; margin: 0 auto 32px auto; line-height: 1.8; }
+    .toggle { display: flex; align-items: center; gap: 12px; justify-content: center; }
+    .toggle-btn { padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 500; border: 0.5px solid #1a3a24; background: #0a1a0f; color: rgba(159,225,203,0.5); cursor: pointer; }
+    .toggle-btn.on { background: #1D9E75; border-color: #1D9E75; color: #fff; }
+    .save-badge { background: #0f2e1a; color: #1D9E75; border: 0.5px solid #1D9E75; border-radius: 20px; padding: 2px 10px; font-size: 10px; font-weight: 500; }
+
+    .plans { display: grid; grid-template-columns: repeat(3,1fr); border-bottom: 0.5px solid #1a3a24; }
+    .plan { padding: 48px 32px; border-right: 0.5px solid #1a3a24; display: flex; flex-direction: column; }
+    .plan:last-child { border-right: none; }
+    .plan.featured { background: #0d1f14; }
+    .plan-badge { display: inline-block; font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 20px; background: #1D9E75; color: #fff; margin-bottom: 16px; align-self: flex-start; }
+    .plan-name { font-size: 24px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+    .plan-desc { font-size: 15px; color: rgba(159,225,203,0.7); margin-bottom: 24px; line-height: 1.6; }
+    .plan-price { font-size: 48px; font-weight: 600; color: #1D9E75; margin-bottom: 4px; }
+    .plan-price span { font-size: 16px; color: rgba(159,225,203,0.5); font-weight: 500; }
+    .plan-period { font-size: 14px; color: rgba(159,225,203,0.5); margin-bottom: 32px; }
+    .plan-btn { padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; border: none; margin-bottom: 32px; width: 100%; transition: all 0.2s; }
+    .plan-btn.primary { background: #1D9E75; color: #fff; }
+    .plan-btn.primary:hover { background: #178562; }
+    .plan-btn.ghost { background: transparent; border: 1px solid #1D9E75; color: #1D9E75; }
+    .plan-btn.ghost:hover { background: rgba(29,158,117,0.1); }
+    .divider { height: 1px; background: #1a3a24; margin-bottom: 24px; }
+    .feat-title { font-size: 13px; color: rgba(159,225,203,0.6); letter-spacing: 1px; margin-bottom: 16px; font-weight: 600; }
+    .feats { display: flex; flex-direction: column; gap: 12px; }
+    .feat { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; color: rgba(159,225,203,0.8); }
+    .feat .c { color: #1D9E75; flex-shrink: 0; font-weight: bold; }
+    .feat .x { color: rgba(159,225,203,0.3); flex-shrink: 0; }
+
+    .compare { padding: 64px 32px; border-bottom: 0.5px solid #1a3a24; max-width: 1000px; margin: 0 auto; }
+    .compare-title { text-align: center; font-size: 32px; font-weight: 600; color: #fff; margin-bottom: 40px; }
+    .compare-table { width: 100%; border-collapse: collapse; }
+    .compare-table th { padding: 16px; font-size: 15px; color: rgba(159,225,203,0.6); letter-spacing: 1px; font-weight: 600; border-bottom: 1px solid #1a3a24; text-align: center; }
+    .compare-table th:first-child { text-align: left; }
+    .compare-table td { padding: 16px; font-size: 15px; color: rgba(159,225,203,0.8); border-bottom: 1px solid #1a3a24; text-align: center; }
+    .compare-table td:first-child { text-align: left; color: rgba(159,225,203,0.7); font-weight: 500; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .section-row td { background: #0d1f14 !important; font-size: 14px; color: #1D9E75 !important; letter-spacing: 1px; padding: 12px 16px !important; font-weight: 600; }
+    .check { color: #1D9E75; font-weight: bold; }
+    .cross { color: rgba(159,225,203,0.3); }
+
+    .faq { padding: 64px 32px; border-bottom: 0.5px solid #1a3a24; max-width: 900px; margin: 0 auto; }
+    .faq-title { text-align: center; font-size: 32px; font-weight: 600; color: #fff; margin-bottom: 40px; }
+    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .faq-item { background: #0d1f14; border-radius: 12px; padding: 24px; border: 1px solid #1a3a24; }
+    .faq-q { font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 12px; }
+    .faq-a { font-size: 15px; color: rgba(159,225,203,0.7); line-height: 1.7; }
+
+    .cta-section { padding: 80px 32px; text-align: center; background: #0d1f14; }
+    .cta-section h2 { font-size: 36px; font-weight: 600; color: #9FE1CB; margin-bottom: 16px; }
+    .cta-section p { font-size: 18px; color: rgba(159,225,203,0.7); margin-bottom: 32px; max-width: 600px; margin-left: auto; margin-right: auto; }
+    .cta-row { display: flex; gap: 16px; justify-content: center; }
+    .cta-btn { padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; border: none; text-decoration: none; transition: all 0.2s; }
+    .cta-btn.p { background: #1D9E75; color: #fff; }
+    .cta-btn.p:hover { background: #178562; }
+    .cta-btn.g { background: transparent; border: 1px solid #1D9E75; color: #1D9E75; }
+    .cta-btn.g:hover { background: rgba(29,158,117,0.1); }
+
+    .footer { display: flex; justify-content: space-between; align-items: center; padding: 16px 32px; border-top: 0.5px solid #1a3a24; font-size: 12px; color: rgba(159,225,203,0.4); background: #0d1f14; }
+    .footer-logo { font-size: 14px; font-weight: 500; color: #fff; }
+    .footer-logo span { color: #1D9E75; }
+
+    @media (max-width: 768px) {
+      .plans { grid-template-columns: 1fr; }
+      .plan { border-right: none; border-bottom: 0.5px solid #1a3a24; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../assets/images/favicon.ico">
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
 </head>
-<body style="background-color: #0a1a0f;">
-    
-    <!-- Contenedor del Navbar dinámico -->
-    <div id="navbar-container"></div>
+<body>
 
-    <main class="main-content" style="min-height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem;">
-        <h1 style="color: #1D9E75; text-align: center; margin-bottom: 2rem;">Precios - Travitrade</h1>
-        <a href="/index.html" class="btn btn-outline">&larr; Volver al inicio</a>
-    </main>
+  <!-- Contenedor del Navbar dinámico -->
+  <div id="navbar-container"></div>
 
-    <!-- Footer Dinámico -->
-    <div id="footer-container"></div>
+  <section class="hero">
+    <div class="badge">Planes y precios</div>
+    <h1>Simple, transparente, <span>sin sorpresas</span></h1>
+    <p>Empieza gratis y escala cuando estés listo. Sin contratos, sin tarjeta de crédito requerida.</p>
+    <div class="toggle">
+      <button class="toggle-btn on" onclick="setToggle('mensual')">Mensual</button>
+      <button class="toggle-btn" onclick="setToggle('anual')">Anual</button>
+      <span class="save-badge">Ahorra 20%</span>
+    </div>
+  </section>
 
-    <!-- JS Scripts -->
-    <script src="/js/main.js"></script>
+  <div class="plans">
+    <div class="plan">
+      <div class="plan-name">Free</div>
+      <p class="plan-desc">Para traders que están comenzando a registrar sus operaciones.</p>
+      <div class="plan-price" id="price-free">$0 <span>/mes</span></div>
+      <div class="plan-period">Siempre gratis</div>
+      <button class="plan-btn ghost" onclick="window.location.href='https://app.travitrade.com/registro?plan=free'">Comenzar gratis</button>
+      <div class="divider"></div>
+      <div class="feat-title">INCLUYE</div>
+      <div class="feats">
+        <div class="feat"><span class="c">✓</span> 1 cuenta de trading</div>
+        <div class="feat"><span class="c">✓</span> Hasta 30 operaciones</div>
+        <div class="feat"><span class="c">✓</span> Setups ilimitados</div>
+        <div class="feat"><span class="c">✓</span> Dashboard básico</div>
+        <div class="feat"><span class="x">—</span> Calendario de rendimiento</div>
+        <div class="feat"><span class="x">—</span> Análisis de setups</div>
+        <div class="feat"><span class="x">—</span> Reportes avanzados</div>
+        <div class="feat"><span class="x">—</span> Travi Portafolio</div>
+        <div class="feat"><span class="x">—</span> Travi Finance</div>
+      </div>
+    </div>
+
+    <div class="plan featured">
+      <span class="plan-badge">Recomendado</span>
+      <div class="plan-name">Pro</div>
+      <p class="plan-desc">Para traders activos que quieren análisis completo de su rendimiento.</p>
+      <div class="plan-price" id="price-pro">$19 <span>/mes</span></div>
+      <div class="plan-period" id="period-pro">Facturado mensualmente</div>
+      <button class="plan-btn primary" onclick="window.location.href='https://app.travitrade.com/registro?plan=pro'">Suscribirse al Pro</button>
+      <div class="divider"></div>
+      <div class="feat-title">TODO LO DE FREE, MÁS</div>
+      <div class="feats">
+        <div class="feat"><span class="c">✓</span> Cuentas ilimitadas</div>
+        <div class="feat"><span class="c">✓</span> Operaciones ilimitadas</div>
+        <div class="feat"><span class="c">✓</span> Calendario de rendimiento</div>
+        <div class="feat"><span class="c">✓</span> Análisis avanzado de setups</div>
+        <div class="feat"><span class="c">✓</span> Reportes avanzados PDF</div>
+        <div class="feat"><span class="c">✓</span> Curva de equity avanzada</div>
+        <div class="feat"><span class="c">✓</span> Soporte prioritario</div>
+        <div class="feat"><span class="x">—</span> Travi Portafolio</div>
+        <div class="feat"><span class="x">—</span> Travi Finance</div>
+      </div>
+    </div>
+
+    <div class="plan">
+      <div class="plan-name">Business</div>
+      <p class="plan-desc">Para traders que quieren acceso completo al ecosistema Travitrade.</p>
+      <div class="plan-price" id="price-business">$49 <span>/mes</span></div>
+      <div class="plan-period" id="period-business">Facturado mensualmente</div>
+      <button class="plan-btn ghost" onclick="window.location.href='https://app.travitrade.com/registro?plan=business'">Suscribirse al Business</button>
+      <div class="divider"></div>
+      <div class="feat-title">TODO LO DE PRO, MÁS</div>
+      <div class="feats">
+        <div class="feat"><span class="c">✓</span> Travi Portafolio incluido</div>
+        <div class="feat"><span class="c">✓</span> Travi Finance incluido</div>
+        <div class="feat"><span class="c">✓</span> API access</div>
+        <div class="feat"><span class="c">✓</span> Múltiples usuarios</div>
+        <div class="feat"><span class="c">✓</span> Soporte dedicado</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="compare">
+    <div class="compare-title">Comparación detallada</div>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Funcionalidad</th>
+          <th>Free</th>
+          <th>Pro</th>
+          <th>Business</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-row"><td colspan="4">TRAVI JOURNALS</td></tr>
+        <tr><td>Cuentas de trading</td><td>1</td><td>Ilimitadas</td><td>Ilimitadas</td></tr>
+        <tr><td>Operaciones registradas</td><td>30</td><td>Ilimitadas</td><td>Ilimitadas</td></tr>
+        <tr><td>Setups</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Dashboard básico</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Calendario de rendimiento</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Análisis de setups</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Reportes avanzados PDF</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr class="section-row"><td colspan="4">ECOSISTEMA</td></tr>
+        <tr><td>Travi Portafolio</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Travi Finance</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>API access</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+        <tr class="section-row"><td colspan="4">SOPORTE</td></tr>
+        <tr><td>Soporte por email</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Soporte prioritario</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Soporte dedicado</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="faq">
+    <div class="faq-title">Preguntas frecuentes</div>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <div class="faq-q">¿Puedo cancelar en cualquier momento?</div>
+        <div class="faq-a">Sí, puedes cancelar tu suscripción cuando quieras. No hay contratos ni penalizaciones.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Necesito tarjeta de crédito para el plan Free?</div>
+        <div class="faq-a">No. El plan Free es completamente gratuito y no requiere ningún método de pago.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Qué pasa con mis datos si cancelo?</div>
+        <div class="faq-a">Tus datos permanecen seguros por 30 días después de la cancelación. Puedes exportarlos en cualquier momento.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">¿Puedo cambiar de plan en cualquier momento?</div>
+        <div class="faq-a">Sí, puedes subir o bajar de plan cuando quieras. Los cambios se aplican de inmediato.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Empieza a operar con claridad</h2>
+    <p>Únete a los traders que ya usan Travitrade para mejorar su rendimiento.</p>
+    <div class="cta-row">
+      <a href="https://app.travitrade.com/registro?plan=free" class="cta-btn p">Comenzar gratis</a>
+      <a href="productos.html" class="cta-btn g">Ver productos →</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span class="footer-logo">travi<span>trade</span></span>
+    <span>© 2025 Travitrade · Todos los derechos reservados</span>
+    <div style="display:flex;gap:16px">
+      <a href="#" style="color:rgba(159,225,203,0.4);text-decoration:none">Términos</a>
+      <a href="#" style="color:rgba(159,225,203,0.4);text-decoration:none">Privacidad</a>
+      <a href="contacto.html" style="color:rgba(159,225,203,0.4);text-decoration:none">Consultas</a>
+    </div>
+  </footer>
+
+  <script>
+    function setToggle(tipo) {
+      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('on'))
+      event.target.classList.add('on')
+      if (tipo === 'anual') {
+        document.getElementById('price-pro').innerHTML = '$15 <span>/mes</span>'
+        document.getElementById('price-business').innerHTML = '$39 <span>/mes</span>'
+        document.getElementById('period-pro').textContent = 'Facturado anualmente ($182/año)'
+        document.getElementById('period-business').textContent = 'Facturado anualmente ($468/año)'
+      } else {
+        document.getElementById('price-pro').innerHTML = '$19 <span>/mes</span>'
+        document.getElementById('price-business').innerHTML = '$49 <span>/mes</span>'
+        document.getElementById('period-pro').textContent = 'Facturado mensualmente'
+        document.getElementById('period-business').textContent = 'Facturado mensualmente'
+      }
+    }
+  </script>
+
+  <!-- JS Scripts -->
+  <script src="../js/main.js"></script>
 </body>
 </html>
