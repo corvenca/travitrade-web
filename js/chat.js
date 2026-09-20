@@ -11,6 +11,7 @@
   let leadCaptured = false
   let lastMessageCount = 0
   let pollingInterval = null
+  let agentJoined = false
 
   const styles = `
     #tv-chat-btn {
@@ -53,16 +54,24 @@
       max-width: 80%; padding: 8px 12px; font-size: 13px;
       color: #fff; line-height: 1.5;
     }
+    /* Bot — verde oscuro */
     .tv-bubble.bot {
-      background: #0a1a0f; border: 0.5px solid #1a3a24;
+      background: #0a1a0f;
+      border: 0.5px solid #1a3a24;
       border-radius: 12px 12px 12px 2px;
+      color: #9FE1CB;
     }
+
+    /* Usuario — verde primario */
     .tv-bubble.user {
       background: #1D9E75;
       border-radius: 12px 12px 2px 12px;
+      color: #fff;
     }
+
+    /* Agente humano — azul */
     .tv-bubble.agent {
-      background: #1D9E75;
+      background: #3b82f6;
       border-radius: 12px 12px 12px 2px;
       color: #fff;
     }
@@ -241,6 +250,7 @@
           newMessages.forEach(msg => {
             console.log('Mensaje nuevo:', msg.role, msg.content)
             if (msg.role === 'agent') {
+              agentJoined = true
               addMessage('agent', msg.content)
             }
           })
@@ -266,13 +276,20 @@
 
     if (role === 'agent') {
       div.innerHTML = `
-        <div style="width:100%">
-          <div style="font-size:10px;color:#1D9E75;margin-bottom:3px;">Agente Travitrade</div>
+        <div style="width:100%;max-width:80%">
+          <div style="font-size:10px;color:#3b82f6;margin-bottom:3px;font-weight:500;">👤 Agente Travitrade</div>
           <div class="tv-bubble agent">${content.replace(/\n/g, '<br>')}</div>
         </div>
       `
+    } else if (role === 'user') {
+      div.innerHTML = `<div class="tv-bubble user">${content.replace(/\n/g, '<br>')}</div>`
     } else {
-      div.innerHTML = `<div class="tv-bubble ${role === 'user' ? 'user' : 'bot'}">${content.replace(/\n/g, '<br>')}</div>`
+      div.innerHTML = `
+        <div style="width:100%;max-width:80%">
+          <div style="font-size:10px;color:rgba(159,225,203,0.4);margin-bottom:3px;">🤖 Travi</div>
+          <div class="tv-bubble bot">${content.replace(/\n/g, '<br>')}</div>
+        </div>
+      `
     }
 
     document.getElementById('tv-messages').appendChild(div)
@@ -293,12 +310,29 @@
   }
 
   async function sendToAPI(userMsg) {
+    // Si el agente ya tomó el control, solo guardar el mensaje y esperar respuesta del agente
+    if (agentJoined) {
+      showLoading()
+      try {
+        await fetch('https://app.travitrade.com/api/chat/user-message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId,
+            content: userMsg,
+            userEmail: leadData?.email || null,
+            userName: leadData?.nombre || null
+          })
+        })
+      } catch {}
+      hideLoading()
+      showChatInput()
+      return
+    }
+
+    // Si no hay agente, responder con IA normalmente
     showLoading()
     try {
-      console.log('Enviando a:', API_URL)
-      console.log('Mensajes:', JSON.stringify(messages))
-      console.log('Lead data:', leadData)
-
       const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -308,16 +342,11 @@
           userEmail: leadData?.email || null
         })
       })
-
-      console.log('Response status:', res.status)
       const data = await res.json()
-      console.log('Response data:', data)
-
       hideLoading()
       addMessage('assistant', data.reply || 'Ups, intenta de nuevo 😅')
       showChatInput()
     } catch(err) {
-      console.error('Error completo:', err)
       hideLoading()
       addMessage('assistant', 'Error: ' + err.message)
       showChatInput()
