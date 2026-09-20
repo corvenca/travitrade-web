@@ -1,15 +1,17 @@
 (function() {
   const API_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:3002/api/chat'
+    ? 'http://localhost:3000/api/chat'
     : 'https://app.travitrade.com/api/chat'
   const LEADS_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:3002/api/leads'
+    ? 'http://localhost:3000/api/leads'
     : 'https://app.travitrade.com/api/leads'
 
   let sessionId = 'web_' + Date.now() + '_' + Math.random().toString(36).slice(2)
   let messages = []
   let leadData = null
   let leadCaptured = false
+  let lastMessageCount = 0
+  let pollingInterval = null
 
   const styles = `
     #tv-chat-btn {
@@ -59,6 +61,11 @@
     .tv-bubble.user {
       background: #1D9E75;
       border-radius: 12px 12px 2px 12px;
+    }
+    .tv-bubble.agent {
+      background: #1D9E75;
+      border-radius: 12px 12px 12px 2px;
+      color: #fff;
     }
     .tv-form {
       padding: 12px; border-top: 0.5px solid #1a3a24;
@@ -220,11 +227,49 @@
     }
   }
 
+  function startPolling() {
+    if (pollingInterval) return
+    pollingInterval = setInterval(async () => {
+      try {
+        const res = await fetch(`${API_URL.replace('/chat', '/chat/messages')}?sessionId=${sessionId}`)
+        const data = await res.json()
+        if (data.messages && data.messages.length > lastMessageCount) {
+          // Hay mensajes nuevos
+          const newMessages = data.messages.slice(lastMessageCount)
+          newMessages.forEach(msg => {
+            if (msg.role === 'agent') {
+              addMessage('agent', msg.content)
+            }
+          })
+          lastMessageCount = data.messages.length
+        }
+      } catch {}
+    }, 5000)
+  }
+
+  function stopPolling() {
+    if (pollingInterval) {
+      clearInterval(pollingInterval)
+      pollingInterval = null
+    }
+  }
+
   function addMessage(role, content) {
     messages.push({ role, content })
     const div = document.createElement('div')
-    div.className = `tv-msg ${role}`
-    div.innerHTML = `<div class="tv-bubble ${role === 'user' ? 'user' : 'bot'}">${content.replace(/\n/g, '<br>')}</div>`
+    div.className = `tv-msg ${role === 'user' ? 'user' : 'bot'}`
+
+    if (role === 'agent') {
+      div.innerHTML = `
+        <div style="width:100%">
+          <div style="font-size:10px;color:#1D9E75;margin-bottom:3px;">Agente Travitrade</div>
+          <div class="tv-bubble agent">${content.replace(/\n/g, '<br>')}</div>
+        </div>
+      `
+    } else {
+      div.innerHTML = `<div class="tv-bubble ${role === 'user' ? 'user' : 'bot'}">${content.replace(/\n/g, '<br>')}</div>`
+    }
+
     document.getElementById('tv-messages').appendChild(div)
     document.getElementById('tv-messages').scrollTop = 999999
   }
@@ -317,11 +362,13 @@
 
     addMessage('user', 'Hola')
     await sendToAPI('Hola')
+    startPolling()
   }
 
   window.tvSelectOption = async function(option) {
     addMessage('user', option)
     await sendToAPI(option)
+    startPolling()
   }
 
   window.tvSendMessage = async function() {
@@ -331,6 +378,7 @@
     input.value = ''
     addMessage('user', text)
     await sendToAPI(text)
+    startPolling()
   }
 
   function init() {
