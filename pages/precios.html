@@ -106,15 +106,16 @@
     <div class="toggle">
       <button class="toggle-btn on" onclick="setToggle('mensual')">Mensual</button>
       <button class="toggle-btn" onclick="setToggle('anual')">Anual</button>
-      <span class="save-badge">Ahorra 20%</span>
+      <span class="save-badge" id="savings-badge">¡Ahorras $21.88!</span>
     </div>
   </section>
 
-  <div class="plans">
-    <div class="plan">
-      <div class="plan-name">Plan Free — Gratis</div>
-      <p class="plan-desc">Para traders que están comenzando a registrar sus operaciones.</p>
-      <div class="plan-price" id="price-free">$0 <span>/mes</span></div>
+  <div class="plans" style="grid-template-columns: repeat(2, 1fr); max-width: 900px; margin: 0 auto;">
+    <!-- PLAN FREE -->
+    <div class="plan plan-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-price">$0</div>
+      <div class="plan-desc">Para siempre</div>
       <div class="plan-period">Siempre gratis</div>
       <button class="plan-btn ghost" onclick="window.location.href='https://app.travitrade.com/registro?plan=free'">Comenzar gratis</button>
       <div class="divider"></div>
@@ -123,47 +124,31 @@
         <div class="feat"><span class="c">✓</span> Acceso completo a todas las funciones</div>
         <div class="feat"><span class="c">✓</span> Hasta 30 operaciones registradas</div>
         <div class="feat"><span class="c">✓</span> Cuentas ilimitadas</div>
-        <div class="feat"><span class="c">✓</span> Dashboard completo</div>
-        <div class="feat"><span class="c">✓</span> Análisis de setups</div>
-        <div class="feat"><span class="c">✓</span> Calendario de rendimiento</div>
-        <div class="feat"><span class="c">✓</span> Reportes avanzados</div>
+        <div class="feat"><span class="c">✓</span> Dashboard, calendario y reportes</div>
         <div class="feat"><span class="c">✓</span> Sin tarjeta de crédito</div>
-        <div class="feat" style="color:#eab308"><span style="color:#eab308">⚠</span> Al llegar a 25 operaciones no se pueden eliminar registros</div>
+        <div class="feat" style="color:#eab308"><span style="color:#eab308">⚠</span> Límite de 30 operaciones</div>
         <div class="feat"><span class="x">✗</span> Sin soporte prioritario</div>
       </div>
     </div>
 
-    <div class="plan featured">
-      <span class="plan-badge">Recomendado</span>
-      <div class="plan-name">Plan Pro</div>
-      <p class="plan-desc">Para traders activos que quieren análisis completo de su rendimiento.</p>
-      <div class="plan-price" id="price-pro">$5.99 <span>/mes</span></div>
-      <div class="plan-period" id="period-pro">Facturado mensualmente</div>
+    <!-- PLAN PRO -->
+    <div class="plan featured plan-card" data-monthly>
+      <span class="plan-badge">MÁS POPULAR</span>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price monthly-price">$5.99<span>/mes</span></div>
+      <div class="plan-price annual-price" style="display:none">$4.16<span>/mes</span></div>
+      <div class="plan-desc monthly-desc">Facturado mensualmente</div>
+      <div class="plan-desc annual-desc" style="display:none">$50/año — Ahorras $21.88</div>
+      <div class="plan-period" style="margin-bottom: 24px;">Acceso ilimitado</div>
       <button class="plan-btn primary" onclick="window.location.href='https://app.travitrade.com/registro?plan=pro'">Suscribirse al Pro</button>
       <div class="divider"></div>
       <div class="feat-title">INCLUYE</div>
       <div class="feats">
         <div class="feat"><span class="c">✓</span> Todo lo del plan Free</div>
         <div class="feat"><span class="c">✓</span> Operaciones ilimitadas</div>
+        <div class="feat"><span class="c">✓</span> Cuentas ilimitadas</div>
         <div class="feat"><span class="c">✓</span> Soporte prioritario</div>
         <div class="feat"><span class="c">✓</span> Cancela cuando quieras</div>
-      </div>
-    </div>
-
-    <div class="plan">
-      <div class="plan-name">Business</div>
-      <p class="plan-desc">Para traders que quieren acceso completo al ecosistema Travitrade.</p>
-      <div class="plan-price" id="price-business">$49 <span>/mes</span></div>
-      <div class="plan-period" id="period-business">Facturado mensualmente</div>
-      <button class="plan-btn ghost" onclick="window.location.href='https://app.travitrade.com/registro?plan=business'">Suscribirse al Business</button>
-      <div class="divider"></div>
-      <div class="feat-title">TODO LO DE PRO, MÁS</div>
-      <div class="feats">
-        <div class="feat"><span class="c">✓</span> Travi Portafolio incluido</div>
-        <div class="feat"><span class="c">✓</span> Travi Finance incluido</div>
-        <div class="feat"><span class="c">✓</span> API access</div>
-        <div class="feat"><span class="c">✓</span> Múltiples usuarios</div>
-        <div class="feat"><span class="c">✓</span> Soporte dedicado</div>
       </div>
     </div>
   </div>
@@ -176,26 +161,23 @@
           <th>Funcionalidad</th>
           <th>Free</th>
           <th>Pro</th>
-          <th>Business</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="section-row"><td colspan="4">TRAVI JOURNALS</td></tr>
-        <tr><td>Cuentas de trading</td><td>Ilimitadas</td><td>Ilimitadas</td><td>Ilimitadas</td></tr>
-        <tr><td>Operaciones registradas</td><td>Hasta 30</td><td>Ilimitadas</td><td>Ilimitadas</td></tr>
-        <tr><td>Setups</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>Dashboard completo</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>Calendario de rendimiento</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>Análisis de setups</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>Reportes avanzados PDF</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-        <tr class="section-row"><td colspan="4">ECOSISTEMA</td></tr>
-        <tr><td>Travi Portafolio</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>Travi Finance</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>API access</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
-        <tr class="section-row"><td colspan="4">SOPORTE</td></tr>
-        <tr><td>Soporte por email</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>Soporte prioritario</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>Soporte dedicado</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
+        <tr class="section-row"><td colspan="3">PRECIOS Y PLANES</td></tr>
+        <tr><td>Precio mensual</td><td>$0</td><td>$5.99/mes o $4.16/mes (anual)</td></tr>
+        <tr><td>Pago anual</td><td>—</td><td>$50/año (ahorra $21.88)</td></tr>
+        <tr class="section-row"><td colspan="3">TRAVI JOURNALS</td></tr>
+        <tr><td>Cuentas de trading</td><td>Ilimitadas</td><td>Ilimitadas</td></tr>
+        <tr><td>Operaciones registradas</td><td>Hasta 30</td><td>Ilimitadas</td></tr>
+        <tr><td>Setups</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Dashboard completo</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Calendario de rendimiento</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Análisis de setups</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Reportes avanzados PDF</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr class="section-row"><td colspan="3">SOPORTE</td></tr>
+        <tr><td>Soporte por email</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>Soporte prioritario</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td></tr>
       </tbody>
     </table>
   </section>
@@ -243,19 +225,40 @@
 
   <script>
     function setToggle(tipo) {
+      const isAnnual = (tipo === 'anual')
       document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('on'))
-      event.target.classList.add('on')
-      if (tipo === 'anual') {
-        document.getElementById('price-pro').innerHTML = '$4.79 <span>/mes</span>'
-        document.getElementById('price-business').innerHTML = '$39 <span>/mes</span>'
-        document.getElementById('period-pro').textContent = 'Facturado anualmente ($57.50/año)'
-        document.getElementById('period-business').textContent = 'Facturado anualmente ($468/año)'
-      } else {
-        document.getElementById('price-pro').innerHTML = '$5.99 <span>/mes</span>'
-        document.getElementById('price-business').innerHTML = '$49 <span>/mes</span>'
-        document.getElementById('period-pro').textContent = 'Facturado mensualmente'
-        document.getElementById('period-business').textContent = 'Facturado mensualmente'
+      if (window.event && window.event.target && window.event.target.classList) {
+        window.event.target.classList.add('on')
       }
+      
+      document.querySelectorAll('.monthly-price').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
+      document.querySelectorAll('.annual-price').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
+      document.querySelectorAll('.monthly-desc').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
+      document.querySelectorAll('.annual-desc').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
+
+      const savingsBadge = document.getElementById('savings-badge')
+      if (savingsBadge) {
+        savingsBadge.style.display = 'inline-block'
+        savingsBadge.textContent = isAnnual ? '¡Ahorras $21.88!' : 'Ahorra con el plan anual'
+      }
+    }
+
+    // Listener para toggle por checkbox si existe
+    const billingToggle = document.getElementById('billing-toggle')
+    if (billingToggle) {
+      billingToggle.addEventListener('change', function() {
+        const isAnnual = this.checked
+        document.querySelectorAll('.monthly-price').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
+        document.querySelectorAll('.annual-price').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
+        document.querySelectorAll('.monthly-desc').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
+        document.querySelectorAll('.annual-desc').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
+
+        const savingsBadge = document.getElementById('savings-badge')
+        if (savingsBadge) {
+          savingsBadge.style.display = isAnnual ? 'inline-block' : 'none'
+          savingsBadge.textContent = '¡Ahorra $21.88!'
+        }
+      })
     }
   </script>
 
