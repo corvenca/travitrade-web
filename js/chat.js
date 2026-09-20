@@ -319,6 +319,27 @@
   }
 
   async function sendToAPI(userMsg) {
+    if (agentJoined) {
+      showLoading()
+      try {
+        await fetch('https://app.travitrade.com/api/chat/user-message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId,
+            content: userMsg,
+            userEmail: leadData?.email || null,
+            userName: leadData?.nombre || null
+          })
+        })
+      } catch(e) {
+        console.error('Error guardando mensaje:', e)
+      }
+      hideLoading()
+      showChatInput()
+      return
+    }
+
     showLoading()
     try {
       const res = await fetch(API_URL, {
