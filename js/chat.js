@@ -14,6 +14,33 @@
   let agentJoined = false
   let agentRequestTime = null
   let waitingMessageSent = false
+  let inactivityTimer = null
+  const INACTIVITY_TIMEOUT = 2 * 60 * 1000 // 2 minutos
+
+  function resetInactivityTimer() {
+    if (!agentJoined) return // solo cuando agente está activo
+    clearTimeout(inactivityTimer)
+    inactivityTimer = setTimeout(async () => {
+      // Cerrar sesión por inactividad
+      try {
+        await fetch('https://app.travitrade.com/api/chat/close-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId })
+        })
+      } catch {}
+
+      // Mostrar mensaje de cierre
+      addMessage('assistant', 'La sesión con el agente ha finalizado por inactividad. Si necesitas más ayuda, escríbenos nuevamente. 👋')
+
+      // Resetear estado
+      agentJoined = false
+      agentRequestTime = null
+      waitingMessageSent = false
+      stopPolling()
+
+    }, INACTIVITY_TIMEOUT)
+  }
 
   const styles = `
     #tv-chat-btn {
@@ -264,6 +291,7 @@
               agentJoined = true
               agentRequestTime = null
               waitingMessageSent = false
+              resetInactivityTimer() // reiniciar timer cuando agente responde
               addMessage('agent', msg.content)
             }
           })
@@ -452,6 +480,7 @@
   }
 
   window.tvSelectOption = async function(option) {
+    resetInactivityTimer()
     addMessage('user', option)
     if (option.toLowerCase().includes('agente') || option.toLowerCase().includes('soporte')) {
       agentRequestTime = Date.now()
@@ -462,6 +491,7 @@
   }
 
   window.tvSendMessage = async function() {
+    resetInactivityTimer()
     const input = document.getElementById('tv-msg-input')
     const text = input?.value?.trim()
     if (!text) return
