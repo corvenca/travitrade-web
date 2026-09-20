@@ -1,10 +1,9 @@
 (function() {
-  const API_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:3000/api/chat'
-    : 'https://app.travitrade.com/api/chat'
-  const LEADS_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:3000/api/leads'
-    : 'https://app.travitrade.com/api/leads'
+  const BASE_URL = 'https://app.travitrade.com'
+  const API_URL = `${BASE_URL}/api/chat`
+  const LEADS_URL = `${BASE_URL}/api/leads`
+  const MESSAGES_URL = `${BASE_URL}/api/chat/messages`
+  const HISTORY_URL = `${BASE_URL}/api/chat/history`
 
   let sessionId = 'web_' + Date.now() + '_' + Math.random().toString(36).slice(2)
   let messages = []
@@ -232,7 +231,7 @@
     console.log('Iniciando polling con sessionId:', sessionId)
     pollingInterval = setInterval(async () => {
       try {
-        const url = `http://localhost:3000/api/chat/messages?sessionId=${sessionId}`
+        const url = `${MESSAGES_URL}?sessionId=${sessionId}`
         console.log('Polling:', url)
         const res = await fetch(url)
         const data = await res.json()
