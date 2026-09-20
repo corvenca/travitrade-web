@@ -12,6 +12,8 @@
   let lastMessageCount = 0
   let pollingInterval = null
   let agentJoined = false
+  let agentRequestTime = null
+  let waitingMessageSent = false
 
   const styles = `
     #tv-chat-btn {
@@ -211,7 +213,7 @@
     const lastBotMsg = messages.filter(m => m.role === 'assistant').slice(-1)[0]?.content || ''
     const hasMenu = lastBotMsg.includes('1️⃣') || lastBotMsg.includes('gustaría hablar')
 
-    if (hasMenu) {
+    if (hasMenu && !agentJoined) {
       document.getElementById('tv-bottom').innerHTML = `
         <div class="tv-options">
           <button class="tv-option-btn" onclick="window.tvSelectOption('Productos')">📦 Productos</button>
@@ -240,17 +242,24 @@
     console.log('Iniciando polling con sessionId:', sessionId)
     pollingInterval = setInterval(async () => {
       try {
+        if (agentRequestTime && !agentJoined && !waitingMessageSent) {
+          const diffMinutes = (Date.now() - agentRequestTime) / 60000
+          if (diffMinutes >= 2) {
+            waitingMessageSent = true
+            addMessage('assistant', 'Todos nuestros agentes están ocupados en este momento 😔 Te responderemos pronto a tu correo. ¡Gracias por tu paciencia! 🙏')
+          }
+        }
+
         const url = `${MESSAGES_URL}?sessionId=${sessionId}`
-        console.log('Polling:', url)
         const res = await fetch(url)
         const data = await res.json()
-        console.log('Mensajes totales:', data.messages?.length, 'Último count:', lastMessageCount)
         if (data.messages && data.messages.length > lastMessageCount) {
           const newMessages = data.messages.slice(lastMessageCount)
           newMessages.forEach(msg => {
-            console.log('Mensaje nuevo:', msg.role, msg.content)
             if (msg.role === 'agent') {
               agentJoined = true
+              agentRequestTime = null
+              waitingMessageSent = false
               addMessage('agent', msg.content)
             }
           })
@@ -310,27 +319,6 @@
   }
 
   async function sendToAPI(userMsg) {
-    // Si el agente ya tomó el control, solo guardar el mensaje y esperar respuesta del agente
-    if (agentJoined) {
-      showLoading()
-      try {
-        await fetch('https://app.travitrade.com/api/chat/user-message', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            sessionId,
-            content: userMsg,
-            userEmail: leadData?.email || null,
-            userName: leadData?.nombre || null
-          })
-        })
-      } catch {}
-      hideLoading()
-      showChatInput()
-      return
-    }
-
-    // Si no hay agente, responder con IA normalmente
     showLoading()
     try {
       const res = await fetch(API_URL, {
@@ -344,6 +332,11 @@
       })
       const data = await res.json()
       hideLoading()
+      if (data.agentActive && !data.reply) {
+        agentJoined = true
+        showChatInput()
+        return
+      }
       addMessage('assistant', data.reply || 'Ups, intenta de nuevo 😅')
       showChatInput()
     } catch(err) {
@@ -401,6 +394,10 @@
 
   window.tvSelectOption = async function(option) {
     addMessage('user', option)
+    if (option.toLowerCase().includes('agente') || option.toLowerCase().includes('soporte')) {
+      agentRequestTime = Date.now()
+      waitingMessageSent = false
+    }
     await sendToAPI(option)
     startPolling()
   }
@@ -411,6 +408,10 @@
     if (!text) return
     input.value = ''
     addMessage('user', text)
+    if (text.toLowerCase().includes('agente') || text.toLowerCase().includes('soporte')) {
+      agentRequestTime = Date.now()
+      waitingMessageSent = false
+    }
     await sendToAPI(text)
     startPolling()
   }
