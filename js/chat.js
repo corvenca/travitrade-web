@@ -277,7 +277,7 @@
           const diffMinutes = (Date.now() - agentRequestTime) / 60000
           if (diffMinutes >= 2) {
             waitingMessageSent = true
-            addMessage('assistant', 'Todos nuestros agentes están ocupados en este momento 😔 Te responderemos pronto a tu correo. ¡Gracias por tu paciencia! 🙏')
+            addMessage('assistant', 'Todos nuestros agentes están ocupados. Te responderemos pronto a tu correo. También puedes escribirnos a atencionalcliente@travitrade.com 📧')
           }
         }
 

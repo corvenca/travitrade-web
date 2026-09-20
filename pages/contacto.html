@@ -84,38 +84,40 @@
       <div class="col-title">Envíanos un mensaje</div>
       <p class="col-sub">Completa el formulario y te responderemos a la brevedad posible.</p>
 
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">NOMBRE</label>
-          <input class="form-input" type="text" placeholder="Tu nombre" />
+      <form id="contact-form" onsubmit="event.preventDefault(); window.submitContactForm();">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">NOMBRE</label>
+            <input class="form-input" id="cf-nombre" type="text" placeholder="Tu nombre" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">APELLIDO</label>
+            <input class="form-input" id="cf-apellido" type="text" placeholder="Tu apellido" />
+          </div>
         </div>
         <div class="form-group">
-          <label class="form-label">APELLIDO</label>
-          <input class="form-input" type="text" placeholder="Tu apellido" />
+          <label class="form-label">CORREO ELECTRÓNICO</label>
+          <input class="form-input" id="cf-email" type="email" placeholder="tu@email.com" required />
         </div>
-      </div>
-      <div class="form-group">
-        <label class="form-label">CORREO ELECTRÓNICO</label>
-        <input class="form-input" type="email" placeholder="tu@email.com" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">TEMA DE CONSULTA</label>
-        <select class="form-select">
-          <option value="">Selecciona un tema...</option>
-          <option>Travi Journals</option>
-          <option>Planes y precios</option>
-          <option>Problemas técnicos</option>
-          <option>Sugerencias</option>
-          <option>Travi Portafolio (próximamente)</option>
-          <option>Travi Finance (próximamente)</option>
-          <option>Otro</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">MENSAJE</label>
-        <textarea class="form-textarea" placeholder="Escribe tu consulta aquí..."></textarea>
-      </div>
-      <button class="submit-btn">Enviar consulta →</button>
+        <div class="form-group">
+          <label class="form-label">TEMA DE CONSULTA</label>
+          <select class="form-select" id="cf-tema" required>
+            <option value="">Selecciona un tema...</option>
+            <option>Travi Journals</option>
+            <option>Planes y precios</option>
+            <option>Problemas técnicos</option>
+            <option>Sugerencias</option>
+            <option>Travi Portafolio (próximamente)</option>
+            <option>Travi Finance (próximamente)</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">MENSAJE</label>
+          <textarea class="form-textarea" id="cf-mensaje" placeholder="Escribe tu consulta aquí..." required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Enviar consulta →</button>
+      </form>
 
       <div class="channels">
         <div class="channel">
@@ -124,7 +126,7 @@
           </div>
           <div>
             <div class="ch-label">EMAIL</div>
-            <div class="ch-val">soporte@travitrade.com</div>
+            <div class="ch-val">atencionalcliente@travitrade.com</div>
           </div>
         </div>
         <div class="channel">
@@ -197,6 +199,31 @@
         item.classList.toggle('open')
       })
     })
+
+    window.submitContactForm = async function() {
+      const nombre = document.getElementById('cf-nombre').value
+      const apellido = document.getElementById('cf-apellido').value
+      const email = document.getElementById('cf-email').value
+      const tema = document.getElementById('cf-tema').value
+      const mensaje = document.getElementById('cf-mensaje').value
+
+      try {
+        await fetch('https://app.travitrade.com/api/leads', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nombre: `${nombre} ${apellido}`.trim(),
+            email,
+            pais: 'N/A',
+            source: 'contacto_web',
+            mensaje: `[${tema}] ${mensaje}`
+          })
+        })
+      } catch {}
+
+      alert('¡Gracias por tu mensaje! Te responderemos pronto a atencionalcliente@travitrade.com')
+      document.getElementById('contact-form').reset()
+    }
   </script>
 
   <!-- JS Scripts para cargar el Navbar y Footer -->
