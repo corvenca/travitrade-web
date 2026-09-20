@@ -319,6 +319,7 @@
   }
 
   async function sendToAPI(userMsg) {
+    // Si agente ya intervino, solo guardar mensaje sin esperar respuesta de IA
     if (agentJoined) {
       showLoading()
       try {
@@ -337,12 +338,13 @@
       }
       hideLoading()
       showChatInput()
-      return
+      return // salir sin mostrar error
     }
 
+    // Si no hay agente, responder con IA
     showLoading()
     try {
-      const res = await fetch(API_URL, {
+      const res = await fetch('https://app.travitrade.com/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -353,16 +355,22 @@
       })
       const data = await res.json()
       hideLoading()
+
+      // Si agente está activo en el servidor, no mostrar respuesta del bot
       if (data.agentActive && !data.reply) {
         agentJoined = true
         showChatInput()
         return
       }
-      addMessage('assistant', data.reply || 'Ups, intenta de nuevo 😅')
+
+      if (data.reply) {
+        addMessage('assistant', data.reply)
+      }
       showChatInput()
     } catch(err) {
+      console.error('Error chat:', err)
       hideLoading()
-      addMessage('assistant', 'Error: ' + err.message)
+      addMessage('assistant', 'Ups, intenta de nuevo 😅')
       showChatInput()
     }
   }
