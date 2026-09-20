@@ -229,21 +229,27 @@
 
   function startPolling() {
     if (pollingInterval) return
+    console.log('Iniciando polling con sessionId:', sessionId)
     pollingInterval = setInterval(async () => {
       try {
-        const res = await fetch(`${API_URL.replace('/chat', '/chat/messages')}?sessionId=${sessionId}`)
+        const url = `http://localhost:3000/api/chat/messages?sessionId=${sessionId}`
+        console.log('Polling:', url)
+        const res = await fetch(url)
         const data = await res.json()
+        console.log('Mensajes totales:', data.messages?.length, 'Último count:', lastMessageCount)
         if (data.messages && data.messages.length > lastMessageCount) {
-          // Hay mensajes nuevos
           const newMessages = data.messages.slice(lastMessageCount)
           newMessages.forEach(msg => {
+            console.log('Mensaje nuevo:', msg.role, msg.content)
             if (msg.role === 'agent') {
               addMessage('agent', msg.content)
             }
           })
           lastMessageCount = data.messages.length
         }
-      } catch {}
+      } catch(err) {
+        console.error('Error polling:', err)
+      }
     }, 5000)
   }
 
