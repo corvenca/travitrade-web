@@ -356,6 +356,14 @@
       const data = await res.json()
       hideLoading()
 
+      if (data.sessionId && data.sessionId !== sessionId) {
+        sessionId = data.sessionId
+        if (leadData?.email) {
+          localStorage.setItem(`tv_session_${leadData.email}`, data.sessionId)
+        }
+        lastMessageCount = 0
+      }
+
       // Si agente está activo en el servidor, no mostrar respuesta del bot
       if (data.agentActive && !data.reply) {
         agentJoined = true
@@ -407,6 +415,15 @@
     const whatsapp = phone ? `${code}${phone}` : null
     leadData = { nombre, apellido, email, pais, whatsapp }
     leadCaptured = true
+
+    if (email) {
+      const savedSession = localStorage.getItem(`tv_session_${email}`)
+      if (savedSession) {
+        sessionId = savedSession
+      } else {
+        localStorage.setItem(`tv_session_${email}`, sessionId)
+      }
+    }
 
     try {
       await fetch(LEADS_URL, {
