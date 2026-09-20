@@ -177,13 +177,17 @@
     { name: 'Otro', code: '+', flag: '🌍' },
   ]
 
+  let formStartTime = 0
+
   function showLeadForm() {
+    formStartTime = Date.now()
     const countryOptions = COUNTRIES_CODES.map(c =>
       `<option value="${c.code}" data-flag="${c.flag}">${c.flag} ${c.name}</option>`
     ).join('')
 
     document.getElementById('tv-bottom').innerHTML = `
       <div class="tv-form">
+        <input type="text" id="tv-honeypot" name="website" style="display:none;position:absolute;left:-9999px" tabindex="-1" autocomplete="off" />
         <div class="tv-form-title">Ingresa tus datos para continuar 👋</div>
         <div class="tv-input-row">
           <input class="tv-input" id="tv-nombre" placeholder="Nombre *" />
@@ -425,11 +429,20 @@
       }
     }
 
+    const timeToFill = Math.floor((Date.now() - (formStartTime || Date.now())) / 1000)
+    const honeypot = document.getElementById('tv-honeypot')?.value || ''
+
     try {
       await fetch(LEADS_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...leadData, sessionId })
+        body: JSON.stringify({
+          ...leadData,
+          sessionId,
+          timeToFill,
+          honeypot,
+          source: 'web'
+        })
       })
     } catch {}
 
