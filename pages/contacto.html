@@ -84,39 +84,35 @@
       <div class="col-title">Envíanos un mensaje</div>
       <p class="col-sub">Completa el formulario y te responderemos a la brevedad posible.</p>
 
-      <form id="contact-form" onsubmit="event.preventDefault(); window.submitContactForm();">
+      <div id="success-msg" style="display:none; text-align:center; padding: 32px 24px; background: #0d1f14; border: 1px solid #1D9E75; border-radius: 12px; margin-bottom: 24px;">
+        <h3 style="color:#1D9E75; font-size: 20px; margin-bottom: 8px;">¡Consulta enviada con éxito! 🎉</h3>
+        <p style="color:rgba(159,225,203,0.8); font-size: 14px; margin:0;">Gracias por contactarnos. Te responderemos muy pronto a tu correo.</p>
+      </div>
+
+      <form id="form-contacto" onsubmit="enviarConsulta(event)">
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">NOMBRE</label>
-            <input class="form-input" id="cf-nombre" type="text" placeholder="Tu nombre" required />
+            <input class="form-input" id="nombre" type="text" placeholder="Tu nombre" required />
           </div>
           <div class="form-group">
             <label class="form-label">APELLIDO</label>
-            <input class="form-input" id="cf-apellido" type="text" placeholder="Tu apellido" />
+            <input class="form-input" id="apellido" type="text" placeholder="Tu apellido" />
           </div>
         </div>
         <div class="form-group">
           <label class="form-label">CORREO ELECTRÓNICO</label>
-          <input class="form-input" id="cf-email" type="email" placeholder="tu@email.com" required />
+          <input class="form-input" id="email" type="email" placeholder="tu@email.com" required />
         </div>
         <div class="form-group">
-          <label class="form-label">TEMA DE CONSULTA</label>
-          <select class="form-select" id="cf-tema" required>
-            <option value="">Selecciona un tema...</option>
-            <option>Travi Journals</option>
-            <option>Planes y precios</option>
-            <option>Problemas técnicos</option>
-            <option>Sugerencias</option>
-            <option>Travi Portafolio (próximamente)</option>
-            <option>Travi Finance (próximamente)</option>
-            <option>Otro</option>
-          </select>
+          <label class="form-label">TEMA DE CONSULTA / ASUNTO</label>
+          <input class="form-input" id="asunto" type="text" placeholder="Asunto de tu consulta..." required />
         </div>
         <div class="form-group">
           <label class="form-label">MENSAJE</label>
-          <textarea class="form-textarea" id="cf-mensaje" placeholder="Escribe tu consulta aquí..." required></textarea>
+          <textarea class="form-textarea" id="mensaje" placeholder="Escribe tu consulta aquí..." required></textarea>
         </div>
-        <button type="submit" class="submit-btn">Enviar consulta →</button>
+        <button type="submit" id="btn-enviar" class="submit-btn">Enviar consulta →</button>
       </form>
 
       <div class="channels">
@@ -200,29 +196,49 @@
       })
     })
 
-    window.submitContactForm = async function() {
-      const nombre = document.getElementById('cf-nombre').value
-      const apellido = document.getElementById('cf-apellido').value
-      const email = document.getElementById('cf-email').value
-      const tema = document.getElementById('cf-tema').value
-      const mensaje = document.getElementById('cf-mensaje').value
+    async function enviarConsulta(e) {
+      e.preventDefault()
+
+      const nombre = document.getElementById('nombre').value.trim()
+      const email = document.getElementById('email').value.trim()
+      const asunto = document.getElementById('asunto').value.trim()
+      const mensaje = document.getElementById('mensaje').value.trim()
+
+      if (!nombre || !email || !asunto || !mensaje) {
+        alert('Por favor completa todos los campos')
+        return
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(email)) {
+        alert('Por favor ingresa un correo válido')
+        return
+      }
+
+      const btn = document.getElementById('btn-enviar')
+      btn.disabled = true
+      btn.textContent = 'Enviando...'
 
       try {
-        await fetch('https://app.travitrade.com/api/leads', {
+        const res = await fetch('https://app.travitrade.com/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            nombre: `${nombre} ${apellido}`.trim(),
-            email,
-            pais: 'N/A',
-            source: 'contacto_web',
-            mensaje: `[${tema}] ${mensaje}`
-          })
+          body: JSON.stringify({ nombre, email, asunto, mensaje, categoria: 'web' })
         })
-      } catch {}
 
-      alert('¡Gracias por tu mensaje! Te responderemos pronto a atencionalcliente@travitrade.com')
-      document.getElementById('contact-form').reset()
+        if (res.ok) {
+          document.getElementById('form-contacto').style.display = 'none'
+          document.getElementById('success-msg').style.display = 'block'
+        } else {
+          alert('Error al enviar. Intenta de nuevo.')
+          btn.disabled = false
+          btn.textContent = 'Enviar consulta →'
+        }
+      } catch {
+        alert('Error de conexión. Intenta de nuevo.')
+        btn.disabled = false
+        btn.textContent = 'Enviar consulta →'
+      }
     }
   </script>
 
