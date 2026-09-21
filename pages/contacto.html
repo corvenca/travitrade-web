@@ -195,56 +195,77 @@
         item.classList.toggle('open')
       })
     })
-
-    async function enviarConsulta(e) {
-      e.preventDefault()
-
-      const nombre = document.getElementById('nombre').value.trim()
-      const email = document.getElementById('email').value.trim()
-      const asunto = document.getElementById('asunto').value.trim()
-      const mensaje = document.getElementById('mensaje').value.trim()
-
-      if (!nombre || !email || !asunto || !mensaje) {
-        alert('Por favor completa todos los campos')
-        return
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!emailRegex.test(email)) {
-        alert('Por favor ingresa un correo válido')
-        return
-      }
-
-      const btn = document.getElementById('btn-enviar')
-      btn.disabled = true
-      btn.textContent = 'Enviando...'
-
-      try {
-        const res = await fetch('https://app.travitrade.com/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nombre, email, asunto, mensaje, categoria: 'web' })
-        })
-
-        if (res.ok) {
-          document.getElementById('form-contacto').style.display = 'none'
-          document.getElementById('success-msg').style.display = 'block'
-        } else {
-          alert('Error al enviar. Intenta de nuevo.')
-          btn.disabled = false
-          btn.textContent = 'Enviar consulta →'
-        }
-      } catch {
-        alert('Error de conexión. Intenta de nuevo.')
-        btn.disabled = false
-        btn.textContent = 'Enviar consulta →'
-      }
-    }
   </script>
 
   <!-- JS Scripts para cargar el Navbar y Footer -->
   <script src="../js/main.js"></script>
-
   <script src="../js/chat.js"></script>
+
+  <script>
+  async function enviarConsulta(e) {
+    e.preventDefault()
+
+    const nombre = document.getElementById('nombre')?.value.trim()
+    const email = document.getElementById('email')?.value.trim()
+    const asunto = document.getElementById('asunto')?.value.trim()
+    const mensaje = document.getElementById('mensaje')?.value.trim()
+
+    if (!nombre || !email || !asunto || !mensaje) {
+      alert('Por favor completa todos los campos')
+      return
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      alert('Por favor ingresa un correo electrónico válido')
+      return
+    }
+
+    const btn = document.getElementById('btn-enviar')
+    btn.disabled = true
+    btn.textContent = 'Enviando...'
+
+    try {
+      const res = await fetch('https://app.travitrade.com/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre,
+          email,
+          asunto,
+          mensaje,
+          categoria: 'web'
+        })
+      })
+
+      const data = await res.json()
+
+      if (res.ok && data.success) {
+        document.getElementById('form-contacto').style.display = 'none'
+        const success = document.getElementById('success-msg')
+        if (success) {
+          success.style.display = 'block'
+        } else {
+          document.getElementById('form-contacto').insertAdjacentHTML('afterend', `
+            <div style="text-align:center; padding: 40px 20px; background: rgba(29,158,117,0.1); border: 0.5px solid #1D9E75; border-radius: 12px; margin-top: 20px;">
+              <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
+              <h3 style="color: #1D9E75; margin-bottom: 8px;">¡Mensaje enviado!</h3>
+              <p style="color: rgba(159,225,203,0.7);">Te responderemos en menos de 24 horas a <strong>${email}</strong></p>
+            </div>
+          `)
+        }
+      } else {
+        alert('Error al enviar: ' + (data.error || 'Intenta de nuevo'))
+        btn.disabled = false
+        btn.textContent = 'Enviar consulta →'
+      }
+    } catch (err) {
+      console.error('Error:', err)
+      alert('Error de conexión. Verifica tu internet e intenta de nuevo.')
+      btn.disabled = false
+      btn.textContent = 'Enviar consulta →'
+    }
+  }
+  </script>
 </body>
 </html>
