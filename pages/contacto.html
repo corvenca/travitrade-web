@@ -84,9 +84,32 @@
       <div class="col-title">Envíanos un mensaje</div>
       <p class="col-sub">Completa el formulario y te responderemos a la brevedad posible.</p>
 
-      <div id="success-msg" style="display:none; text-align:center; padding: 32px 24px; background: #0d1f14; border: 1px solid #1D9E75; border-radius: 12px; margin-bottom: 24px;">
-        <h3 style="color:#1D9E75; font-size: 20px; margin-bottom: 8px;">¡Consulta enviada con éxito! 🎉</h3>
-        <p style="color:rgba(159,225,203,0.8); font-size: 14px; margin:0;">Gracias por contactarnos. Te responderemos muy pronto a tu correo.</p>
+      <div id="success-msg" style="display:none; text-align:center; padding: 48px 24px; background: rgba(29,158,117,0.08); border: 0.5px solid #1D9E75; border-radius: 14px; margin-top: 24px;">
+        <img src="../assets/images/Logo.png" alt="Travitrade" style="height: 48px; width: auto; margin-bottom: 12px;" />
+        <div style="font-size: 11px; color: #1D9E75; letter-spacing: 3px; margin-bottom: 20px;">Herramientas para traders serios</div>
+        <div style="font-size: 52px; margin-bottom: 16px;">✅</div>
+        <h3 style="color: #1D9E75; font-size: 20px; margin-bottom: 8px;">¡Recibimos tu consulta!</h3>
+        <p style="color: rgba(159,225,203,0.7); font-size: 14px; line-height: 1.8; margin-bottom: 24px;">
+          Nuestro equipo te responderá a la brevedad posible.<br>
+          Revisa tu bandeja de entrada — te enviamos una confirmación.
+        </p>
+        <p style="color: rgba(159,225,203,0.4); font-size: 12px; margin-bottom: 24px; font-style: italic;">
+          "Controla tu trading. Domina tus finanzas."
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <a href="../index.html"
+            style="display:inline-block; background:#1D9E75; color:#fff; padding:10px 24px; border-radius:8px; text-decoration:none; font-size:14px; font-weight:500;">
+            Volver al inicio →
+          </a>
+          <a href="https://app.travitrade.com/registro"
+            style="display:inline-block; background:transparent; color:#1D9E75; padding:10px 24px; border-radius:8px; text-decoration:none; font-size:14px; border: 1px solid #1D9E75;">
+            Crear cuenta gratis
+          </a>
+        </div>
+        <div style="margin-top: 24px; padding-top: 20px; border-top: 0.5px solid rgba(29,158,117,0.3); font-size: 12px; color: rgba(159,225,203,0.3);">
+          <a href="mailto:atencionalcliente@travitrade.com" style="color: #1D9E75; text-decoration: none;">atencionalcliente@travitrade.com</a> ·
+          <a href="https://instagram.com/travitrade" style="color: rgba(159,225,203,0.3); text-decoration: none;">@travitrade</a>
+        </div>
       </div>
 
       <form id="form-contacto" onsubmit="enviarConsulta(event)">
@@ -260,26 +283,8 @@
       if (res.ok && data.success) {
         // Ocultar formulario y mostrar mensaje de éxito
         document.getElementById('form-contacto').style.display = 'none'
-
-        const successEl = document.getElementById('success-msg')
-        if (successEl) {
-          successEl.style.display = 'block'
-        } else {
-          document.querySelector('.contacto-container').insertAdjacentHTML('beforeend', `
-            <div style="text-align:center; padding: 48px 24px; background: rgba(29,158,117,0.08); border: 0.5px solid #1D9E75; border-radius: 14px; margin-top: 24px;">
-              <div style="font-size: 56px; margin-bottom: 16px;">✅</div>
-              <h3 style="color: #1D9E75; font-size: 20px; margin-bottom: 8px;">¡Mensaje enviado!</h3>
-              <p style="color: rgba(159,225,203,0.7); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
-                Hola <strong>${nombre}</strong>, recibimos tu consulta.<br>
-                Te responderemos a la brevedad posible a <strong>${email}</strong>.<br>
-                Revisa también tu bandeja de entrada — te enviamos una confirmación.
-              </p>
-              <a href="../index.html" style="display:inline-block; background:#1D9E75; color:#fff; padding:10px 24px; border-radius:8px; text-decoration:none; font-size:14px; font-weight:500;">
-                Volver al inicio →
-              </a>
-            </div>
-          `)
-        }
+        document.getElementById('success-msg').style.display = 'block'
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       } else {
         alert('Error al enviar: ' + (data.error || 'Intenta de nuevo'))
         btn.disabled = false
