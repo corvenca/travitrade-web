@@ -82,12 +82,12 @@
     .footer-logo { font-size: 14px; font-weight: 500; color: #fff; }
     .footer-logo span { color: #1D9E75; }
 
-    @media (max-width: 768px) {
-      .plans { grid-template-columns: 1fr; }
-      .plan { border-right: none; border-bottom: 0.5px solid #1a3a24; }
-      .faq-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-    }
+    .toggle-switch { position: relative; display: inline-block; width: 38px; height: 20px; vertical-align: middle; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #1a3a24; transition: .3s; border-radius: 20px; border: 0.5px solid #1D9E75; }
+    .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 2px; bottom: 2px; background-color: #1D9E75; transition: .3s; border-radius: 50%; }
+    input:checked + .slider { background-color: #0d1f14; }
+    input:checked + .slider:before { transform: translateX(18px); background-color: #1D9E75; }
   </style>
   
   <!-- Favicon -->
@@ -104,9 +104,17 @@
     <h1>Planes de <span>Travi Journals</span></h1>
     <p>La bitácora de trading profesional de Travitrade. Elige el plan que mejor se adapte a tu ritmo de operaciones.</p>
     <div class="toggle">
-      <button class="toggle-btn on" onclick="setToggle('mensual')">Mensual</button>
-      <button class="toggle-btn" onclick="setToggle('anual')">Anual</button>
-      <span class="save-badge" id="savings-badge">¡Ahorras $21.88!</span>
+      <div class="billing-toggle-container" style="display:inline-flex; align-items:center; gap:8px;">
+        <span class="toggle-label monthly-label" style="opacity: 0.5">Mensual</span>
+        <label class="toggle-switch">
+          <input type="checkbox" id="billing-toggle" checked>
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label annual-label" style="color: #1D9E75; font-weight: 500">
+          Anual
+          <span id="savings-badge" style="background: #1D9E75; color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 20px; margin-left: 6px;">AHORRA $21.88</span>
+        </span>
+      </div>
     </div>
   </section>
 
@@ -136,10 +144,10 @@
     <div class="plan featured plan-card" data-monthly>
       <span class="plan-badge">MÁS POPULAR</span>
       <div class="plan-name">Travi Journals Pro</div>
-      <div class="plan-price monthly-price">$5.99<span>/mes</span></div>
-      <div class="plan-price annual-price" style="display:none">$4.16<span>/mes</span></div>
-      <div class="plan-desc monthly-desc">Facturado mensualmente</div>
-      <div class="plan-desc annual-desc" style="display:none">$50/año · Ahorras $21.88</div>
+      <div class="plan-price monthly-price" style="display:none">$5.99<span>/mes</span></div>
+      <div class="plan-price annual-price">$4.16<span>/mes</span></div>
+      <div class="plan-desc monthly-desc" style="display:none">Facturado mensualmente</div>
+      <div class="plan-desc annual-desc">$50/año · Ahorras $21.88</div>
       <div class="plan-period" style="margin-bottom: 24px;">Acceso ilimitado</div>
       <button class="plan-btn primary" onclick="window.location.href='https://app.travitrade.com/registro?plan=pro'">Empezar con Pro →</button>
       <div class="divider"></div>
@@ -229,42 +237,55 @@
   </footer>
 
   <script>
-    function setToggle(tipo) {
-      const isAnnual = (tipo === 'anual')
-      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('on'))
-      if (window.event && window.event.target && window.event.target.classList) {
-        window.event.target.classList.add('on')
-      }
-      
-      document.querySelectorAll('.monthly-price').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
-      document.querySelectorAll('.annual-price').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
-      document.querySelectorAll('.monthly-desc').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
-      document.querySelectorAll('.annual-desc').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
+    // Al cargar la página, activar anual por defecto
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.getElementById('billing-toggle')
+      if (toggle) {
+        toggle.checked = true // activar anual por defecto
 
-      const savingsBadge = document.getElementById('savings-badge')
-      if (savingsBadge) {
-        savingsBadge.style.display = 'inline-block'
-        savingsBadge.textContent = isAnnual ? '¡Ahorras $21.88!' : 'Ahorra con el plan anual'
-      }
-    }
+        // Mostrar precios anuales
+        document.querySelectorAll('.monthly-price').forEach(el => el.style.display = 'none')
+        document.querySelectorAll('.annual-price').forEach(el => el.style.display = 'block')
+        document.querySelectorAll('.monthly-desc').forEach(el => el.style.display = 'none')
+        document.querySelectorAll('.annual-desc').forEach(el => el.style.display = 'block')
 
-    // Listener para toggle por checkbox si existe
-    const billingToggle = document.getElementById('billing-toggle')
-    if (billingToggle) {
-      billingToggle.addEventListener('change', function() {
-        const isAnnual = this.checked
-        document.querySelectorAll('.monthly-price').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
-        document.querySelectorAll('.annual-price').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
-        document.querySelectorAll('.monthly-desc').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
-        document.querySelectorAll('.annual-desc').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
-
+        // Mostrar badge de ahorro
         const savingsBadge = document.getElementById('savings-badge')
-        if (savingsBadge) {
-          savingsBadge.style.display = isAnnual ? 'inline-block' : 'none'
-          savingsBadge.textContent = '¡Ahorra $21.88!'
-        }
-      })
-    }
+        if (savingsBadge) savingsBadge.style.display = 'inline-block'
+
+        toggle.addEventListener('change', function() {
+          const isAnnual = this.checked
+          document.querySelectorAll('.monthly-price').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
+          document.querySelectorAll('.annual-price').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
+          document.querySelectorAll('.monthly-desc').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
+          document.querySelectorAll('.annual-desc').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
+
+          if (savingsBadge) {
+            savingsBadge.style.display = isAnnual ? 'inline-block' : 'none'
+          }
+
+          const monthlyLabel = document.querySelector('.monthly-label')
+          const annualLabel = document.querySelector('.annual-label')
+          if (monthlyLabel && annualLabel) {
+            if (isAnnual) {
+              monthlyLabel.style.opacity = '0.5'
+              monthlyLabel.style.color = ''
+              monthlyLabel.style.fontWeight = ''
+              annualLabel.style.opacity = '1'
+              annualLabel.style.color = '#1D9E75'
+              annualLabel.style.fontWeight = '500'
+            } else {
+              monthlyLabel.style.opacity = '1'
+              monthlyLabel.style.color = '#1D9E75'
+              monthlyLabel.style.fontWeight = '500'
+              annualLabel.style.opacity = '0.5'
+              annualLabel.style.color = ''
+              annualLabel.style.fontWeight = ''
+            }
+          }
+        })
+      }
+    })
   </script>
 
   <!-- JS Scripts -->
