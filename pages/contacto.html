@@ -80,7 +80,7 @@
   </section>
 
   <div class="main">
-    <div class="contact-col">
+    <div class="contact-col contacto-container">
       <div class="col-title">Envíanos un mensaje</div>
       <p class="col-sub">Completa el formulario y te responderemos a la brevedad posible.</p>
 
@@ -103,6 +103,16 @@
         <div class="form-group">
           <label class="form-label">CORREO ELECTRÓNICO</label>
           <input class="form-input" id="email" type="email" placeholder="tu@email.com" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">TELÉFONO / WHATSAPP</label>
+            <input class="form-input" id="telefono" type="tel" placeholder="+58 412..." />
+          </div>
+          <div class="form-group">
+            <label class="form-label">PAÍS</label>
+            <input class="form-input" id="pais" type="text" placeholder="Venezuela" />
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label">TEMA DE CONSULTA / ASUNTO</label>
@@ -207,11 +217,14 @@
 
     const nombre = document.getElementById('nombre')?.value.trim()
     const email = document.getElementById('email')?.value.trim()
+    const telefono = document.getElementById('telefono')?.value.trim() || ''
+    const pais = document.getElementById('pais')?.value.trim() || ''
     const asunto = document.getElementById('asunto')?.value.trim()
     const mensaje = document.getElementById('mensaje')?.value.trim()
 
+    // Validaciones
     if (!nombre || !email || !asunto || !mensaje) {
-      alert('Por favor completa todos los campos')
+      alert('Por favor completa todos los campos obligatorios')
       return
     }
 
@@ -232,25 +245,38 @@
         body: JSON.stringify({
           nombre,
           email,
+          telefono,
+          pais,
           asunto,
           mensaje,
-          categoria: 'web'
+          categoria: 'web',
+          source: 'web'
         })
       })
 
       const data = await res.json()
+      console.log('Respuesta API:', data)
 
       if (res.ok && data.success) {
+        // Ocultar formulario y mostrar mensaje de éxito
         document.getElementById('form-contacto').style.display = 'none'
-        const success = document.getElementById('success-msg')
-        if (success) {
-          success.style.display = 'block'
+
+        const successEl = document.getElementById('success-msg')
+        if (successEl) {
+          successEl.style.display = 'block'
         } else {
-          document.getElementById('form-contacto').insertAdjacentHTML('afterend', `
-            <div style="text-align:center; padding: 40px 20px; background: rgba(29,158,117,0.1); border: 0.5px solid #1D9E75; border-radius: 12px; margin-top: 20px;">
-              <div style="font-size: 48px; margin-bottom: 16px;">✅</div>
-              <h3 style="color: #1D9E75; margin-bottom: 8px;">¡Mensaje enviado!</h3>
-              <p style="color: rgba(159,225,203,0.7);">Te responderemos en menos de 24 horas a <strong>${email}</strong></p>
+          document.querySelector('.contacto-container').insertAdjacentHTML('beforeend', `
+            <div style="text-align:center; padding: 48px 24px; background: rgba(29,158,117,0.08); border: 0.5px solid #1D9E75; border-radius: 14px; margin-top: 24px;">
+              <div style="font-size: 56px; margin-bottom: 16px;">✅</div>
+              <h3 style="color: #1D9E75; font-size: 20px; margin-bottom: 8px;">¡Mensaje enviado!</h3>
+              <p style="color: rgba(159,225,203,0.7); font-size: 14px; line-height: 1.6; margin-bottom: 20px;">
+                Hola <strong>${nombre}</strong>, recibimos tu consulta.<br>
+                Te responderemos en menos de 24 horas a <strong>${email}</strong>.<br>
+                Revisa también tu bandeja de entrada — te enviamos una confirmación.
+              </p>
+              <a href="../index.html" style="display:inline-block; background:#1D9E75; color:#fff; padding:10px 24px; border-radius:8px; text-decoration:none; font-size:14px; font-weight:500;">
+                Volver al inicio →
+              </a>
             </div>
           `)
         }
@@ -260,7 +286,7 @@
         btn.textContent = 'Enviar consulta →'
       }
     } catch (err) {
-      console.error('Error:', err)
+      console.error('Error de conexión:', err)
       alert('Error de conexión. Verifica tu internet e intenta de nuevo.')
       btn.disabled = false
       btn.textContent = 'Enviar consulta →'
