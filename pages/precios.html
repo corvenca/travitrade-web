@@ -125,7 +125,7 @@
       <div class="plan-price">$0</div>
       <div class="plan-desc">Para siempre — Sin tarjeta de crédito</div>
       <div class="plan-period">Siempre gratis</div>
-      <button class="plan-btn ghost" onclick="window.location.href='https://app.travitrade.com/registro'">Empezar gratis →</button>
+      <a href="https://app.travitrade.com/registro" class="plan-btn ghost btn-plan" style="display:inline-block; text-decoration:none; text-align:center; box-sizing:border-box;">Empezar gratis →</a>
       <div class="divider"></div>
       <div class="feat-title">INCLUYE</div>
       <div class="feats">
@@ -149,7 +149,8 @@
       <div class="plan-desc monthly-desc" style="display:none">Facturado mensualmente</div>
       <div class="plan-desc annual-desc">$50/año · Ahorras $21.88</div>
       <div class="plan-period" style="margin-bottom: 24px;">Acceso ilimitado</div>
-      <button class="plan-btn primary" onclick="window.location.href='https://app.travitrade.com/registro?plan=pro'">Empezar con Pro →</button>
+      <button id="btn-monthly" onclick="iniciarPago('monthly')" class="plan-btn primary btn-plan btn-pro monthly-btn" style="display:none;">💳 Suscribirse — $5.99/mes</button>
+      <button id="btn-annual" onclick="iniciarPago('annual')" class="plan-btn primary btn-plan btn-pro annual-btn">💳 Suscribirse — $50/año · Ahorra $21.88</button>
       <div class="divider"></div>
       <div class="feat-title">INCLUYE</div>
       <div class="feats">
@@ -236,6 +237,42 @@
     </div>
   </footer>
 
+  <!-- Stripe JS SDK & Checkout logic -->
+  <script src="https://js.stripe.com/v3/"></script>
+  <script>
+  const STRIPE_PUBLISHABLE_KEY = 'pk_test_tu_key_aqui'
+  const PRICE_MONTHLY = 'price_tu_price_mensual'
+  const PRICE_ANNUAL = 'price_tu_price_anual'
+
+  async function iniciarPago(plan) {
+    const priceId = plan === 'annual' ? PRICE_ANNUAL : PRICE_MONTHLY
+
+    try {
+      const btn = document.getElementById(`btn-${plan}`)
+      if (btn) { btn.disabled = true; btn.textContent = 'Redirigiendo...' }
+
+      const res = await fetch('https://app.travitrade.com/api/stripe/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ priceId, plan })
+      })
+
+      const data = await res.json()
+
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        alert('Error al iniciar el pago. Intenta de nuevo.')
+        if (btn) { btn.disabled = false; btn.textContent = plan === 'annual' ? '💳 Suscribirse — $50/año · Ahorra $21.88' : '💳 Suscribirse — $5.99/mes' }
+      }
+    } catch (err) {
+      console.error('Error:', err)
+      alert('Error de conexión. Intenta de nuevo.')
+      if (btn) { btn.disabled = false; btn.textContent = plan === 'annual' ? '💳 Suscribirse — $50/año · Ahorra $21.88' : '💳 Suscribirse — $5.99/mes' }
+    }
+  }
+  </script>
+
   <script>
     // Al cargar la página, activar anual por defecto
     document.addEventListener('DOMContentLoaded', function() {
@@ -243,11 +280,13 @@
       if (toggle) {
         toggle.checked = true // activar anual por defecto
 
-        // Mostrar precios anuales
+        // Mostrar precios y botones anuales
         document.querySelectorAll('.monthly-price').forEach(el => el.style.display = 'none')
         document.querySelectorAll('.annual-price').forEach(el => el.style.display = 'block')
         document.querySelectorAll('.monthly-desc').forEach(el => el.style.display = 'none')
         document.querySelectorAll('.annual-desc').forEach(el => el.style.display = 'block')
+        document.querySelectorAll('.monthly-btn').forEach(el => el.style.display = 'none')
+        document.querySelectorAll('.annual-btn').forEach(el => el.style.display = 'block')
 
         // Mostrar badge de ahorro
         const savingsBadge = document.getElementById('savings-badge')
@@ -259,6 +298,8 @@
           document.querySelectorAll('.annual-price').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
           document.querySelectorAll('.monthly-desc').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
           document.querySelectorAll('.annual-desc').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
+          document.querySelectorAll('.monthly-btn').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
+          document.querySelectorAll('.annual-btn').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
 
           if (savingsBadge) {
             savingsBadge.style.display = isAnnual ? 'inline-block' : 'none'
