@@ -280,26 +280,35 @@
       if (toggle) {
         toggle.checked = true // activar anual por defecto
 
-        // Mostrar precios y botones anuales
+        // Mostrar precios y descripciones anuales
         document.querySelectorAll('.monthly-price').forEach(el => el.style.display = 'none')
         document.querySelectorAll('.annual-price').forEach(el => el.style.display = 'block')
         document.querySelectorAll('.monthly-desc').forEach(el => el.style.display = 'none')
         document.querySelectorAll('.annual-desc').forEach(el => el.style.display = 'block')
-        document.querySelectorAll('.monthly-btn').forEach(el => el.style.display = 'none')
-        document.querySelectorAll('.annual-btn').forEach(el => el.style.display = 'block')
+
+        // Al cargar — mostrar solo botón anual (predeterminado)
+        const btnMonthly = document.getElementById('btn-monthly')
+        const btnAnnual = document.getElementById('btn-annual')
+        if (btnMonthly) btnMonthly.style.display = 'none'
+        if (btnAnnual) btnAnnual.style.display = 'block'
 
         // Mostrar badge de ahorro
         const savingsBadge = document.getElementById('savings-badge')
         if (savingsBadge) savingsBadge.style.display = 'inline-block'
 
+        // Actualiza el toggle para cambiar el botón también
         toggle.addEventListener('change', function() {
           const isAnnual = this.checked
+
+          // Cambiar precios
           document.querySelectorAll('.monthly-price').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
           document.querySelectorAll('.annual-price').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
           document.querySelectorAll('.monthly-desc').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
           document.querySelectorAll('.annual-desc').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
-          document.querySelectorAll('.monthly-btn').forEach(el => el.style.display = isAnnual ? 'none' : 'block')
-          document.querySelectorAll('.annual-btn').forEach(el => el.style.display = isAnnual ? 'block' : 'none')
+
+          // Cambiar botón
+          if (btnMonthly) btnMonthly.style.display = isAnnual ? 'none' : 'block'
+          if (btnAnnual) btnAnnual.style.display = isAnnual ? 'block' : 'none'
 
           if (savingsBadge) {
             savingsBadge.style.display = isAnnual ? 'inline-block' : 'none'
